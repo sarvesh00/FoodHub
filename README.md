@@ -1,6 +1,6 @@
-# Modern Rasoi website (FoodHub repo)
+# SuChef website (FoodHub repo)
 
-Static multilingual website (English, Hindi, Marathi, Gujarati) for **Modern Rasoi** (*Traditional taste, modern convenience*), a ready-to-cook food brand in Mahim/Dadar, Mumbai. Paratha mixes are the first product category and the flagship range; more categories will follow. Built with [Astro](https://astro.build), with no backend. Customers choose products and the site opens WhatsApp with the order already typed out.
+Static multilingual website (English, Hindi, Marathi, Gujarati) for **SuChef** (*You cook. We prep.*), a ready-to-cook food brand from SuChef Foods in Mahim/Dadar, Mumbai. Flagship range: paratha, tikki and chilla mixes; more categories will follow. Brand rules live in `brand/suchef-brand-brief.md` in the FoodHub Claude project. Built with [Astro](https://astro.build), with no backend. Customers choose products and the site opens WhatsApp with the order already typed out.
 
 **Status:** dummy site in *coming soon* mode, with placeholder product details.
 
@@ -17,7 +17,8 @@ Nothing needs to run on a laptop. Every push to `main` is built and deployed by 
 | Brand name, colours, WhatsApp number, FSSAI number, switches | `src/site.config.ts` |
 | Delivery pincodes, delivery fee, minimum order | `src/site.config.ts` → `delivery` |
 | Product categories (e.g. Paratha mixes) | `src/data/categories.json` |
-| Products (category, flagship flag, packs, prices, ingredients, allergens, shelf life, cooking steps) | `src/data/products.json` |
+| Products (category, flagship flag, net weight, price, ingredients, allergens, shelf life, cooking steps) | `src/data/products.json` |
+| Logo files (SVG) | `public/brand/suchef-logo.svg`, `public/favicon.svg`, `src/components/Logo.astro` |
 | Our story, How to cook tips, FAQ | `src/data/pages.json` |
 | Shipping, refund, privacy, terms | `src/data/policies.ts` |
 | Buttons, menus, labels and all other interface text | `src/i18n/ui.ts` |
@@ -42,16 +43,20 @@ Every text field has `en`, `hi`, `mr`, `gu` versions. If a language is missing, 
 | `orderingEnabled` | `false` | `false` = coming soon / notify me. `true` = full WhatsApp order form |
 | `allowIndexing` | `false` | Lets Google index the site |
 | `showPrices` | `true` | Shows prices while in coming-soon mode |
+| `cleanLabelConfirmed` | `false` | Shows the clean-label badge. Founder-confirmed claims only |
 
 The build **fails on purpose** if `orderingEnabled` is `true` but `fssaiNumber` is not a 14-digit number.
 
 ## Launch checklist
 
-- [x] Brand name: Modern Rasoi
-- [ ] Trademark check (IP India), domain and Instagram handle for Modern Rasoi
-- [ ] FSSAI registration done, then `fssaiNumber` set (it appears in the footer and on product pages)
-- [ ] Real prices, pack sizes, ingredients and allergens from the actual recipe
-- [ ] Shelf life confirmed by lab testing (the "6 months" on the site is a placeholder)
+- [x] Brand name: SuChef (legal: SuChef Foods)
+- [ ] Trademark filing for SuChef Foods + su·chef logo (class 30), after an attorney's check
+- [ ] Register @suchef.foods on Instagram and other platforms
+- [ ] Buy suchef.in (see `docs/custom-domain.md`)
+- [ ] Fill every `null` field in `products.json` (shown on the site as `[TBC by founder]`)
+- [ ] Confirm the clean-label claims, then set `cleanLabelConfirmed: true`
+- [ ] FSSAI registration done, then `fssaiNumber` set (nothing FSSAI-related shows on the site until then)
+- [ ] Shelf life confirmed by lab testing before it goes on the site or a label
 - [ ] Hindi, Marathi and Gujarati proofread by native speakers (`ui.ts`, `products.json`, `pages.json`)
 - [ ] Policy pages reviewed by a CA or lawyer, then translated
 - [ ] "Our story" rewritten by the founder (`pages.json` → `story`)
@@ -67,7 +72,8 @@ The build **fails on purpose** if `orderingEnabled` is `true` but `fssaiNumber` 
 ### Phase 1: GitHub Pages (now)
 
 1. Repo **Settings → Pages → Build and deployment → Source: GitHub Actions** (one-time).
-2. Push to `main`. `.github/workflows/deploy-pages.yml` builds and deploys.
+2. Push to `main`. `.github/workflows/deploy-pages.yml` builds and deploys. Pull requests get a build check only.
+3. Keep the repo **public**: on GitHub's free plan, Pages switches off when the repo goes private.
 
 ### Phase 2: AWS S3 + CloudFront (after the domain is bought)
 

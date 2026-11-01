@@ -1,21 +1,22 @@
 ---
 import ProductArt from './ProductArt.astro';
+import Tbc from './Tbc.astro';
+import WaProductButton from './WaProductButton.astro';
 import { site } from '../site.config';
 import { href, pick, rupees, useT, type Lang } from '../lib/i18n';
-import { minPrice, type Product } from '../lib/products';
+import type { Product } from '../lib/products';
 interface Props { lang: Lang; product: Product }
 const { lang, product: p } = Astro.props;
 const t = useT(lang);
 const name = pick(p.name, lang);
-const price = minPrice(p);
 const upcoming = p.status === 'upcoming';
 const link = href(lang, `products/${p.slug}/`);
 ---
 <article class:list={['pcard', { upcoming }]}>
   {upcoming ? (
-    <div class="art-box"><ProductArt class="art" dough={p.art.dough} fleck={p.art.fleck} /></div>
+    <div class="art-box"><ProductArt class="art" dough={p.art.dough} fleck={p.art.fleck} shape={p.shape} /></div>
   ) : (
-    <a href={link} tabindex="-1" aria-hidden="true"><ProductArt class="art" dough={p.art.dough} fleck={p.art.fleck} /></a>
+    <a class="art-box" href={link} tabindex="-1" aria-hidden="true"><ProductArt class="art" dough={p.art.dough} fleck={p.art.fleck} shape={p.shape} /></a>
   )}
   <div class="body">
     {upcoming && <span class="badge">{t('product.upcoming')}</span>}
@@ -24,8 +25,14 @@ const link = href(lang, `products/${p.slug}/`);
     <p class="muted">{pick(p.short, lang)}</p>
     {!upcoming && (
       <div class="foot">
-        {site.showPrices && price !== undefined && <span class="price"><small>{t('product.from')}</small> {rupees(price)}</span>}
-        <a class="more" href={link}>{t('product.view')} →</a>
+        <dl class="mini">
+          {site.showPrices && <div><dt>{t('product.price')}</dt><dd>{p.priceRupees != null ? rupees(p.priceRupees) : <Tbc lang={lang} />}</dd></div>}
+          <div><dt>{t('product.netWeight')}</dt><dd>{p.netWeight ?? <Tbc lang={lang} />}</dd></div>
+        </dl>
+        <div class="actions">
+          <WaProductButton lang={lang} product={name} />
+          <a class="more" href={link}>{t('product.view')} →</a>
+        </div>
       </div>
     )}
   </div>
@@ -33,18 +40,22 @@ const link = href(lang, `products/${p.slug}/`);
 
 <style>
   .pcard { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
-  .pcard > a, .art-box { display: block; background: var(--paper-2); padding: 1.4rem; }
+  .art-box { display: block; background: var(--green-soft); padding: 1.4rem; }
+  .pcard :global(.art) { width: 100%; max-width: 230px; margin-inline: auto; transition: transform 0.4s; }
+  .pcard:hover :global(.art) { transform: rotate(-8deg) scale(1.02); }
+  .upcoming :global(.art) { filter: grayscale(0.55); opacity: 0.75; max-width: 150px; }
+  .body { padding: 1.2rem 1.4rem 1.4rem; display: flex; flex-direction: column; flex: 1; }
   .body .badge { align-self: flex-start; }
   .badge--flag { background: var(--c-primary); color: #fff; }
-  .pcard :global(.art) { width: 100%; max-width: 260px; margin-inline: auto; transition: transform 0.4s; }
-  .pcard:hover :global(.art) { transform: rotate(-8deg) scale(1.02); }
-  .upcoming :global(.art) { filter: grayscale(0.55); opacity: 0.75; max-width: 160px; }
-  .body { padding: 1.2rem 1.4rem 1.4rem; display: flex; flex-direction: column; flex: 1; }
-  h3 { margin: 0.3rem 0 0.3rem; }
+  h3 { margin: 0.5rem 0 0.3rem; font-size: 1.15rem; }
   h3 a { color: var(--c-ink); text-decoration: none; }
   h3 a:hover { color: var(--c-primary); }
-  .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-top: 0.6rem; }
-  .price { font-weight: 700; font-size: 1.2rem; }
-  .price small { font-weight: 400; color: var(--muted); font-size: 0.85rem; }
-  .more { font-weight: 700; text-decoration: none; }
+  .foot { margin-top: auto; padding-top: 0.6rem; display: grid; gap: 0.9rem; }
+  .mini { display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; margin: 0; font-size: 0.9rem; }
+  .mini div { display: flex; gap: 0.4rem; align-items: baseline; }
+  .mini dt { color: var(--muted); }
+  .mini dd { margin: 0; font-weight: 600; }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem 1rem; }
+  .actions :global(.btn) { min-height: 44px; padding-block: 0.5rem; font-size: 0.95rem; }
+  .more { font-weight: 600; text-decoration: none; }
 </style>

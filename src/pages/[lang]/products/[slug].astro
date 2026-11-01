@@ -1,8 +1,8 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import ProductArt from '../../../components/ProductArt.astro';
-import ComingSoon from '../../../components/ComingSoon.astro';
-import WaIcon from '../../../components/WaIcon.astro';
+import Tbc from '../../../components/Tbc.astro';
+import WaProductButton from '../../../components/WaProductButton.astro';
 import { site } from '../../../site.config';
 import { langs, href, pick, rupees, useT, withBase, type Lang } from '../../../lib/i18n';
 import { activeProducts, categoryOf, type Product } from '../../../lib/products';
@@ -14,8 +14,8 @@ const lang = Astro.params.lang as Lang;
 const { product: p } = Astro.props as { product: Product };
 const t = useT(lang);
 const name = pick(p.name, lang);
-const packs = p.packs ?? [];
 const cat = categoryOf(p);
+const cooking = p.cooking ? pick(p.cooking, lang) : null;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -24,21 +24,20 @@ const jsonLd = {
   description: pick(p.short, 'en'),
   brand: { '@type': 'Brand', name: site.brandName },
   ...(cat ? { category: pick(cat.name, 'en') } : {}),
-  ...(site.showPrices && packs.length
+  ...(site.showPrices && p.priceRupees != null
     ? {
-        offers: packs.map((k) => ({
+        offers: {
           '@type': 'Offer',
           priceCurrency: 'INR',
-          price: k.priceRupees,
-          name: k.size,
+          price: p.priceRupees,
           availability: site.orderingEnabled ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder',
           url: new URL(withBase(`${lang}/products/${p.slug}/`), Astro.site).href,
-        })),
+        },
       }
     : {}),
 };
 ---
-<Base lang={lang} path={`products/${p.slug}/`} title={name} description={pick(p.short, lang)} jsonLd={jsonLd}>
+<Base lang={lang} path={`products/${p.slug}/`} title={name} description={`${pick(p.short, lang)} ${cat ? pick(cat.name, lang) + ' · ' : ''}Mumbai.`} jsonLd={jsonLd}>
   <section class="section">
     <div class="wrap">
       <p class="small crumbs">
@@ -46,50 +45,35 @@ const jsonLd = {
         {cat && <> › <a href={href(lang, `collections/${cat.slug}/`)}>{pick(cat.name, lang)}</a></>}
       </p>
       <div class="pgrid">
-        <div class="art-wrap">
-          <ProductArt dough={p.art.dough} fleck={p.art.fleck} label={name} />
-        </div>
+        <figure class="art-wrap">
+          <ProductArt dough={p.art.dough} fleck={p.art.fleck} shape={p.shape} label={name} />
+          <figcaption class="small muted">{t('product.illustration')}</figcaption>
+        </figure>
         <div>
           {p.featured && <span class="badge flag">{t('product.flagship')}</span>}
           <h1>{name}</h1>
-          <p class="lead">{p.description ? pick(p.description, lang) : pick(p.short, lang)}</p>
-
-          {packs.length > 0 && (
-            <ul class="packs">
-              {packs.map((k) => (
-                <li>
-                  <strong>{k.size}</strong>
-                  {k.makes && <span class="muted small">{pick(k.makes, lang)}</span>}
-                  {site.showPrices && <span class="price">{rupees(k.priceRupees)}</span>}
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {site.orderingEnabled ? (
-            <a class="btn btn--wa btn--block" href={href(lang, `order/?add=${p.slug}`)}><WaIcon /> {t('product.add')}</a>
-          ) : (
-            <ComingSoon lang={lang} product={name} compact />
-          )}
+          <p class="lead">{pick(p.short, lang)}</p>
+          <dl class="facts">
+            {site.showPrices && <div><dt>{t('product.price')}</dt><dd>{p.priceRupees != null ? rupees(p.priceRupees) : <Tbc lang={lang} />}</dd></div>}
+            <div><dt>{t('product.netWeight')}</dt><dd>{p.netWeight ?? <Tbc lang={lang} />}</dd></div>
+          </dl>
+          <div class="cta">
+            <WaProductButton lang={lang} product={name} block />
+            {!site.orderingEnabled && <p class="small muted">{t('soon.text')}</p>}
+          </div>
         </div>
       </div>
 
       <div class="details">
         <div>
           <h2>{t('product.cooking')}</h2>
-          {p.cooking && (
-            <ol class="steps">
-              {pick(p.cooking, lang).map((s) => <li>{s}</li>)}
-            </ol>
-          )}
+          {cooking ? <ol class="steps">{cooking.map((s) => <li>{s}</li>)}</ol> : <p><Tbc lang={lang} /></p>}
         </div>
         <dl class="facts">
-          {p.ingredients && <div><dt>{t('product.ingredients')}</dt><dd>{pick(p.ingredients, lang).join(', ')}</dd></div>}
-          {p.allergens && <div><dt>{t('product.allergens')}</dt><dd>{pick(p.allergens, lang)}</dd></div>}
-          {packs.length > 0 && <div><dt>{t('product.packSize')}</dt><dd>{packs.map((k) => k.size).join(' / ')}</dd></div>}
-          {p.shelfLife && <div><dt>{t('product.shelfLife')}</dt><dd>{pick(p.shelfLife, lang)}</dd></div>}
-          {p.storage && <div><dt>{t('product.storage')}</dt><dd>{pick(p.storage, lang)}</dd></div>}
-          <div><dt>{t('product.fssai')}</dt><dd>{site.fssaiNumber || t('footer.fssaiPending')}</dd></div>
+          <div><dt>{t('product.ingredients')}</dt><dd>{p.ingredients ? pick(p.ingredients, lang).join(', ') : <Tbc lang={lang} />}</dd></div>
+          <div><dt>{t('product.allergens')}</dt><dd>{p.allergens ? pick(p.allergens, lang) : <Tbc lang={lang} />}</dd></div>
+          <div><dt>{t('product.shelfLife')}</dt><dd>{p.shelfLife ? pick(p.shelfLife, lang) : <Tbc lang={lang} />}</dd></div>
+          {site.fssaiNumber && <div><dt>FSSAI</dt><dd>{site.fssaiNumber}</dd></div>}
         </dl>
       </div>
     </div>
@@ -99,11 +83,10 @@ const jsonLd = {
 <style>
   .pgrid { display: grid; gap: 2rem; align-items: center; margin-top: 1rem; }
   @media (min-width: 860px) { .pgrid { grid-template-columns: 1fr 1.1fr; gap: 3.5rem; } }
-  .art-wrap { background: var(--paper-2); border-radius: var(--radius-lg); padding: clamp(1.5rem, 5vw, 3rem); }
-  .art-wrap :global(svg) { max-width: 420px; margin-inline: auto; filter: drop-shadow(0 18px 30px rgb(40 25 10 / 0.3)); }
-  .packs { list-style: none; padding: 0; margin: 1.5rem 0; display: grid; gap: 0.6rem; }
-  .packs li { display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 0.8rem 1rem; }
-  .packs .price { margin-left: auto; font-weight: 700; font-size: 1.15rem; }
+  .art-wrap { margin: 0; background: var(--green-soft); border-radius: var(--radius-lg); padding: clamp(1.5rem, 5vw, 3rem); text-align: center; }
+  .art-wrap :global(svg) { max-width: 400px; margin-inline: auto; filter: drop-shadow(0 18px 30px rgb(30 30 30 / 0.28)); }
+  .art-wrap figcaption { margin-top: 1rem; }
+  .cta { margin-top: 1.5rem; display: grid; gap: 0.6rem; }
   .details { display: grid; gap: 2.5rem; margin-top: 3.5rem; }
   @media (min-width: 860px) { .details { grid-template-columns: 1fr 1fr; gap: 4rem; } }
   .details h2 { font-size: 1.5rem; }

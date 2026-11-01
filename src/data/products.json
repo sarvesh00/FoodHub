@@ -1,338 +1,179 @@
 {
-  "_readme": "Products shown on the site. category: slug from categories.json. featured: true = flagship, shown on the home page. status: 'active' = on sale (or pre-launch), 'upcoming' = shown under 'Coming later'. ALL prices, pack sizes, ingredients, allergens and shelf life below are PLACEHOLDERS until confirmed. Shelf life must match lab testing before launch.",
+  "_readme": "SuChef products (brand brief §9). Edit text here, not in HTML. Each product: category (slug from categories.json), featured (flagship, shown on the home page), shape (illustration: paratha | tikki | chilla). Fields set to null show as [TBC by founder] on the site: netWeight (e.g. \"250 g\"), priceRupees (number), ingredients ({en: [..], hi: [..], ...}), allergens, shelfLife ({en: \"..\", ...}), cooking ({en: [step, step], ...}). Never fill these with guesses: only founder-confirmed facts.",
   "products": [
     {
       "slug": "methi-paratha-mix",
       "category": "paratha-mixes",
       "status": "active",
       "featured": true,
+      "shape": "paratha",
       "art": {
         "dough": "#d9b47a",
-        "fleck": "#3f6b2a"
+        "fleck": "#3E6B2F"
       },
       "name": {
-        "en": "Methi Paratha Mix",
-        "hi": "मेथी पराठा मिक्स",
-        "mr": "मेथी पराठा मिक्स",
-        "gu": "મેથી પરાઠા મિક્સ"
+        "en": "SuChef Methi Paratha Mix",
+        "hi": "सुशेफ मेथी पराठा मिक्स",
+        "mr": "सुशेफ मेथी पराठा मिक्स",
+        "gu": "સુશેફ મેથી પરાઠા મિક્સ"
       },
       "short": {
-        "en": "Whole-wheat flour with dried methi leaves and gentle spices.",
-        "hi": "सूखी मेथी और हल्के मसालों के साथ गेहूं का आटा।",
-        "mr": "वाळलेली मेथी आणि सौम्य मसाल्यांसोबत गव्हाचे पीठ.",
-        "gu": "સૂકી મેથી અને હળવા મસાલા સાથે ઘઉંનો લોટ."
+        "en": "Methi parathas, minus the leaf-picking.",
+        "hi": "मेथी के पराठे, पत्तियां चुनने की झंझट के बिना।",
+        "mr": "मेथीचे पराठे, पाने निवडायच्या कटकटीशिवाय.",
+        "gu": "મેથીના પરાઠા, પાંદડાં ચૂંટવાની ઝંઝટ વગર."
       },
-      "description": {
-        "en": "A slightly bitter, warm-flavoured paratha that goes well with curd and pickle. The methi is cleaned, dried and mixed in, so there is nothing to chop or wash.",
-        "hi": "हल्की कड़वाहट और गरम स्वाद वाला पराठा, जो दही और अचार के साथ बढ़िया लगता है। मेथी पहले से साफ़, सूखी और मिली हुई है, इसलिए काटने-धोने की ज़रूरत नहीं।",
-        "mr": "किंचित कडसर, खमंग चवीचा पराठा, दही आणि लोणच्यासोबत छान लागतो. मेथी आधीच स्वच्छ, वाळवलेली आणि मिसळलेली आहे, त्यामुळे चिरणे-धुणे नाही.",
-        "gu": "થોડી કડવાશ અને ગરમ સ્વાદવાળા પરાઠા, દહીં અને અથાણા સાથે સરસ લાગે. મેથી પહેલેથી સાફ, સૂકવેલી અને મિક્સ કરેલી છે, એટલે સમારવા-ધોવાની જરૂર નથી."
-      },
-      "packs": [
-        {
-          "id": "500g",
-          "size": "500 g",
-          "priceRupees": 149,
-          "makes": {
-            "en": "about 14–16 parathas",
-            "hi": "लगभग 14–16 पराठे",
-            "mr": "सुमारे 14–16 पराठे",
-            "gu": "લગભગ 14–16 પરાઠા"
-          }
-        },
-        {
-          "id": "1kg",
-          "size": "1 kg",
-          "priceRupees": 279,
-          "makes": {
-            "en": "about 28–32 parathas",
-            "hi": "लगभग 28–32 पराठे",
-            "mr": "सुमारे 28–32 पराठे",
-            "gu": "લગભગ 28–32 પરાઠા"
-          }
-        }
-      ],
-      "ingredients": {
-        "en": [
-          "Whole wheat flour (atta)",
-          "Dried fenugreek (methi) leaves",
-          "Gram flour (besan)",
-          "Edible vegetable oil",
-          "Iodised salt",
-          "Spices: cumin, carom seeds (ajwain), turmeric, red chilli"
-        ],
-        "hi": [
-          "गेहूं का आटा",
-          "सूखी मेथी की पत्तियां",
-          "बेसन",
-          "खाद्य वनस्पति तेल",
-          "आयोडीन युक्त नमक",
-          "मसाले: जीरा, अजवाइन, हल्दी, लाल मिर्च"
-        ],
-        "mr": [
-          "गव्हाचे पीठ",
-          "वाळलेली मेथीची पाने",
-          "बेसन",
-          "खाद्य वनस्पती तेल",
-          "आयोडीनयुक्त मीठ",
-          "मसाले: जिरे, ओवा, हळद, लाल तिखट"
-        ],
-        "gu": [
-          "ઘઉંનો લોટ",
-          "સૂકી મેથીના પાન",
-          "ચણાનો લોટ (બેસન)",
-          "ખાદ્ય વનસ્પતિ તેલ",
-          "આયોડાઇઝ્ડ મીઠું",
-          "મસાલા: જીરું, અજમો, હળદર, લાલ મરચું"
-        ]
-      },
-      "allergens": {
-        "en": "Contains wheat (gluten) and gram (chickpea).",
-        "hi": "इसमें गेहूं (ग्लूटेन) और चना है।",
-        "mr": "यात गहू (ग्लूटेन) आणि हरभरा आहे.",
-        "gu": "આમાં ઘઉં (ગ્લુટેન) અને ચણા છે."
-      },
-      "shelfLife": {
-        "en": "6 months from the date of packing",
-        "hi": "पैकिंग की तारीख से 6 महीने",
-        "mr": "पॅकिंगच्या तारखेपासून 6 महिने",
-        "gu": "પેકિંગની તારીખથી 6 મહિના"
-      },
-      "storage": {
-        "en": "Store in a cool, dry place away from sunlight. Close the pack tightly after opening.",
-        "hi": "धूप से दूर ठंडी, सूखी जगह रखें। खोलने के बाद पैक कसकर बंद करें।",
-        "mr": "उन्हापासून दूर थंड, कोरड्या जागी ठेवा. उघडल्यावर पॅक घट्ट बंद करा.",
-        "gu": "તડકાથી દૂર ઠંડી, સૂકી જગ્યાએ રાખો. ખોલ્યા પછી પેક બરાબર બંધ કરો."
-      },
-      "cooking": {
-        "en": [
-          "Take 1 cup of mix in a bowl.",
-          "Add about ½ cup of water little by little and knead a soft dough.",
-          "Cover and rest for 10 minutes.",
-          "Make lemon-sized balls and roll out with a little dry flour.",
-          "Cook on a hot tawa, flip, and apply a little ghee or oil on both sides until golden spots appear.",
-          "Serve hot with curd, pickle or chutney."
-        ],
-        "hi": [
-          "कटोरे में 1 कप मिक्स लें।",
-          "लगभग ½ कप पानी थोड़ा-थोड़ा डालकर नरम आटा गूंधें।",
-          "ढककर 10 मिनट रखें।",
-          "नींबू जितनी लोइयां बनाकर थोड़े सूखे आटे से बेलें।",
-          "गरम तवे पर सेकें, पलटें और दोनों तरफ़ थोड़ा घी या तेल लगाकर सुनहरे धब्बे आने तक सेकें।",
-          "दही, अचार या चटनी के साथ गरम परोसें।"
-        ],
-        "mr": [
-          "वाडग्यात 1 कप मिक्स घ्या.",
-          "सुमारे ½ कप पाणी थोडे थोडे घालून मऊ पीठ मळा.",
-          "झाकून 10 मिनिटे ठेवा.",
-          "लिंबाएवढे गोळे करून थोड्या कोरड्या पिठावर लाटा.",
-          "गरम तव्यावर भाजा, उलटा आणि दोन्ही बाजूंना थोडे तूप किंवा तेल लावून सोनेरी डाग येईपर्यंत भाजा.",
-          "दही, लोणचे किंवा चटणीसोबत गरम वाढा."
-        ],
-        "gu": [
-          "વાટકામાં 1 કપ મિક્સ લો.",
-          "લગભગ ½ કપ પાણી થોડું થોડું ઉમેરી નરમ લોટ બાંધો.",
-          "ઢાંકીને 10 મિનિટ રાખો.",
-          "લીંબુ જેટલા લૂઆ બનાવી થોડા કોરા લોટથી વણો.",
-          "ગરમ તવી પર શેકો, ફેરવો અને બંને બાજુ થોડું ઘી કે તેલ લગાવી સોનેરી ડાઘ આવે ત્યાં સુધી શેકો.",
-          "દહીં, અથાણું કે ચટણી સાથે ગરમ પીરસો."
-        ]
-      }
+      "netWeight": null,
+      "priceRupees": null,
+      "ingredients": null,
+      "allergens": null,
+      "shelfLife": null,
+      "cooking": null
     },
     {
-      "slug": "palak-paratha-mix",
+      "slug": "lal-maath-paratha-mix",
       "category": "paratha-mixes",
       "status": "active",
       "featured": true,
+      "shape": "paratha",
       "art": {
-        "dough": "#a9b56a",
-        "fleck": "#2c5a24"
+        "dough": "#cf9a82",
+        "fleck": "#8c2b3c"
       },
       "name": {
-        "en": "Palak Paratha Mix",
-        "hi": "पालक पराठा मिक्स",
-        "mr": "पालक पराठा मिक्स",
-        "gu": "પાલક પરાઠા મિક્સ"
+        "en": "SuChef Lal Maath Paratha Mix",
+        "hi": "सुशेफ लाल माठ पराठा मिक्स",
+        "mr": "सुशेफ लाल माठ पराठा मिक्स",
+        "gu": "સુશેફ લાલ માઠ પરાઠા મિક્સ"
       },
       "short": {
-        "en": "Whole-wheat flour with dried spinach for soft, green parathas.",
-        "hi": "नरम, हरे पराठों के लिए सूखे पालक के साथ गेहूं का आटा।",
-        "mr": "मऊ, हिरव्या पराठ्यांसाठी वाळलेल्या पालकासोबत गव्हाचे पीठ.",
-        "gu": "નરમ, લીલા પરાઠા માટે સૂકી પાલક સાથે ઘઉંનો લોટ."
+        "en": "Red amaranth parathas, the kind you rarely find time to make.",
+        "hi": "लाल चौलाई के पराठे, जिन्हें बनाने का वक़्त कम ही मिलता है।",
+        "mr": "लाल माठाचे पराठे, जे बनवायला क्वचितच वेळ मिळतो.",
+        "gu": "લાલ તાંદળજાના પરાઠા, જે બનાવવાનો સમય ભાગ્યે જ મળે છે."
       },
-      "description": {
-        "en": "A mild, soft paratha that children usually like. Good for tiffin boxes and quick dinners.",
-        "hi": "हल्के स्वाद का नरम पराठा, जो बच्चों को अक्सर पसंद आता है। टिफ़िन और झटपट डिनर के लिए बढ़िया।",
-        "mr": "सौम्य चवीचा मऊ पराठा, जो मुलांना बहुतेक आवडतो. डबा आणि झटपट जेवणासाठी उत्तम.",
-        "gu": "હળવા સ્વાદના નરમ પરાઠા, જે બાળકોને મોટે ભાગે ગમે છે. ટિફિન અને ઝડપી ડિનર માટે સરસ."
-      },
-      "packs": [
-        {
-          "id": "500g",
-          "size": "500 g",
-          "priceRupees": 159,
-          "makes": {
-            "en": "about 14–16 parathas",
-            "hi": "लगभग 14–16 पराठे",
-            "mr": "सुमारे 14–16 पराठे",
-            "gu": "લગભગ 14–16 પરાઠા"
-          }
-        },
-        {
-          "id": "1kg",
-          "size": "1 kg",
-          "priceRupees": 299,
-          "makes": {
-            "en": "about 28–32 parathas",
-            "hi": "लगभग 28–32 पराठे",
-            "mr": "सुमारे 28–32 पराठे",
-            "gu": "લગભગ 28–32 પરાઠા"
-          }
-        }
-      ],
-      "ingredients": {
-        "en": [
-          "Whole wheat flour (atta)",
-          "Dried spinach (palak)",
-          "Edible vegetable oil",
-          "Iodised salt",
-          "Spices: cumin, green chilli powder, garam masala"
-        ],
-        "hi": [
-          "गेहूं का आटा",
-          "सूखा पालक",
-          "खाद्य वनस्पति तेल",
-          "आयोडीन युक्त नमक",
-          "मसाले: जीरा, हरी मिर्च पाउडर, गरम मसाला"
-        ],
-        "mr": [
-          "गव्हाचे पीठ",
-          "वाळलेला पालक",
-          "खाद्य वनस्पती तेल",
-          "आयोडीनयुक्त मीठ",
-          "मसाले: जिरे, हिरवी मिरची पावडर, गरम मसाला"
-        ],
-        "gu": [
-          "ઘઉંનો લોટ",
-          "સૂકી પાલક",
-          "ખાદ્ય વનસ્પતિ તેલ",
-          "આયોડાઇઝ્ડ મીઠું",
-          "મસાલા: જીરું, લીલા મરચાનો પાવડર, ગરમ મસાલો"
-        ]
-      },
-      "allergens": {
-        "en": "Contains wheat (gluten).",
-        "hi": "इसमें गेहूं (ग्लूटेन) है।",
-        "mr": "यात गहू (ग्लूटेन) आहे.",
-        "gu": "આમાં ઘઉં (ગ્લુટેન) છે."
-      },
-      "shelfLife": {
-        "en": "6 months from the date of packing",
-        "hi": "पैकिंग की तारीख से 6 महीने",
-        "mr": "पॅकिंगच्या तारखेपासून 6 महिने",
-        "gu": "પેકિંગની તારીખથી 6 મહિના"
-      },
-      "storage": {
-        "en": "Store in a cool, dry place away from sunlight. Close the pack tightly after opening.",
-        "hi": "धूप से दूर ठंडी, सूखी जगह रखें। खोलने के बाद पैक कसकर बंद करें।",
-        "mr": "उन्हापासून दूर थंड, कोरड्या जागी ठेवा. उघडल्यावर पॅक घट्ट बंद करा.",
-        "gu": "તડકાથી દૂર ઠંડી, સૂકી જગ્યાએ રાખો. ખોલ્યા પછી પેક બરાબર બંધ કરો."
-      },
-      "cooking": {
-        "en": [
-          "Take 1 cup of mix in a bowl.",
-          "Add about ½ cup of water little by little and knead a soft dough.",
-          "Cover and rest for 10 minutes.",
-          "Make lemon-sized balls and roll out with a little dry flour.",
-          "Cook on a medium-hot tawa so the green colour stays bright. Apply a little ghee or oil on both sides.",
-          "Serve hot with curd, raita or butter."
-        ],
-        "hi": [
-          "कटोरे में 1 कप मिक्स लें।",
-          "लगभग ½ कप पानी थोड़ा-थोड़ा डालकर नरम आटा गूंधें।",
-          "ढककर 10 मिनट रखें।",
-          "नींबू जितनी लोइयां बनाकर थोड़े सूखे आटे से बेलें।",
-          "मध्यम गरम तवे पर सेकें ताकि हरा रंग बना रहे। दोनों तरफ़ थोड़ा घी या तेल लगाएं।",
-          "दही, रायता या मक्खन के साथ गरम परोसें।"
-        ],
-        "mr": [
-          "वाडग्यात 1 कप मिक्स घ्या.",
-          "सुमारे ½ कप पाणी थोडे थोडे घालून मऊ पीठ मळा.",
-          "झाकून 10 मिनिटे ठेवा.",
-          "लिंबाएवढे गोळे करून थोड्या कोरड्या पिठावर लाटा.",
-          "मध्यम गरम तव्यावर भाजा म्हणजे हिरवा रंग टिकून राहील. दोन्ही बाजूंना थोडे तूप किंवा तेल लावा.",
-          "दही, रायता किंवा लोण्यासोबत गरम वाढा."
-        ],
-        "gu": [
-          "વાટકામાં 1 કપ મિક્સ લો.",
-          "લગભગ ½ કપ પાણી થોડું થોડું ઉમેરી નરમ લોટ બાંધો.",
-          "ઢાંકીને 10 મિનિટ રાખો.",
-          "લીંબુ જેટલા લૂઆ બનાવી થોડા કોરા લોટથી વણો.",
-          "મધ્યમ ગરમ તવી પર શેકો જેથી લીલો રંગ જળવાય. બંને બાજુ થોડું ઘી કે તેલ લગાવો.",
-          "દહીં, રાયતું કે માખણ સાથે ગરમ પીરસો."
-        ]
-      }
+      "netWeight": null,
+      "priceRupees": null,
+      "ingredients": null,
+      "allergens": null,
+      "shelfLife": null,
+      "cooking": null
     },
     {
-      "slug": "thepla-mix",
-      "category": "paratha-mixes",
-      "status": "upcoming",
+      "slug": "hara-bhara-tikki-mix",
+      "category": "tikki-mixes",
+      "status": "active",
+      "featured": true,
+      "shape": "tikki",
       "art": {
-        "dough": "#d8a85e",
-        "fleck": "#5a7a2a"
+        "dough": "#7f9c4c",
+        "fleck": "#2f5a20"
       },
       "name": {
-        "en": "Thepla Mix",
-        "hi": "थेपला मिक्स",
-        "mr": "थेपला मिक्स",
-        "gu": "થેપલા મિક્સ"
+        "en": "SuChef Hara Bhara Tikki Mix",
+        "hi": "सुशेफ हरा भरा टिक्की मिक्स",
+        "mr": "सुशेफ हरा भरा टिक्की मिक्स",
+        "gu": "સુશેફ હરા ભરા ટિક્કી મિક્સ"
       },
       "short": {
-        "en": "Travel-friendly Gujarati thepla flour.",
-        "hi": "सफ़र के लिए बढ़िया गुजराती थेपला आटा।",
-        "mr": "प्रवासासाठी उत्तम गुजराती थेपला पीठ.",
-        "gu": "મુસાફરી માટે ઉત્તમ ગુજરાતી થેપલાનો લોટ."
-      }
+        "en": "Hara bhara tikkis without the chopping-board marathon.",
+        "hi": "हरा भरा टिक्की, चॉपिंग बोर्ड की लंबी मेहनत के बिना।",
+        "mr": "हरा भरा टिक्की, चॉपिंग बोर्डवरच्या लांब मेहनतीशिवाय.",
+        "gu": "હરા ભરા ટિક્કી, ચોપિંગ બોર્ડની લાંબી મહેનત વગર."
+      },
+      "netWeight": null,
+      "priceRupees": null,
+      "ingredients": null,
+      "allergens": null,
+      "shelfLife": null,
+      "cooking": null
     },
     {
-      "slug": "puri-mix",
-      "status": "upcoming",
+      "slug": "rajma-beetroot-tikki-mix",
+      "category": "tikki-mixes",
+      "status": "active",
+      "featured": true,
+      "shape": "tikki",
       "art": {
-        "dough": "#e3c28a",
-        "fleck": "#b0763a"
+        "dough": "#9c3d4c",
+        "fleck": "#5a1f2a"
       },
       "name": {
-        "en": "Puri Mix",
-        "hi": "पूरी मिक्स",
-        "mr": "पुरी मिक्स",
-        "gu": "પૂરી મિક્સ"
+        "en": "SuChef Rajma Beetroot Tikki Mix",
+        "hi": "सुशेफ राजमा बीटरूट टिक्की मिक्स",
+        "mr": "सुशेफ राजमा बीटरूट टिक्की मिक्स",
+        "gu": "સુશેફ રાજમા બીટરૂટ ટિક્કી મિક્સ"
       },
       "short": {
-        "en": "For puffed, crisp puris every time.",
-        "hi": "हर बार फूली, कुरकुरी पूरियों के लिए।",
-        "mr": "प्रत्येक वेळी फुगलेल्या, कुरकुरीत पुऱ्यांसाठी.",
-        "gu": "દર વખતે ફૂલેલી, કરકરી પૂરી માટે."
-      }
+        "en": "Rajma and beetroot tikkis, with the slow prep already done.",
+        "hi": "राजमा और बीटरूट की टिक्की, धीमी तैयारी पहले से हो चुकी।",
+        "mr": "राजमा आणि बीटरूटची टिक्की, वेळखाऊ तयारी आधीच झालेली.",
+        "gu": "રાજમા અને બીટરૂટની ટિક્કી, ધીમી તૈયારી પહેલેથી થયેલી."
+      },
+      "netWeight": null,
+      "priceRupees": null,
+      "ingredients": null,
+      "allergens": null,
+      "shelfLife": null,
+      "cooking": null
     },
     {
-      "slug": "bhakri-flour",
-      "status": "upcoming",
+      "slug": "green-moong-sprouts-veggies-chilla-mix",
+      "category": "chilla-mixes",
+      "status": "active",
+      "featured": true,
+      "shape": "chilla",
       "art": {
-        "dough": "#c9a77a",
-        "fleck": "#7a5a3a"
+        "dough": "#b9bb66",
+        "fleck": "#3E6B2F"
       },
       "name": {
-        "en": "Bhakri Flour",
-        "hi": "भाकरी आटा",
-        "mr": "भाकरी पीठ",
-        "gu": "ભાખરી લોટ"
+        "en": "SuChef Green Moong Sprouts & Veggies Chilla Mix",
+        "hi": "सुशेफ ग्रीन मूंग स्प्राउट्स और वेजीज़ चीला मिक्स",
+        "mr": "सुशेफ ग्रीन मूग स्प्राउट्स आणि भाज्या चिला मिक्स",
+        "gu": "સુશેફ ગ્રીન મગ સ્પ્રાઉટ્સ અને શાકભાજી ચીલા મિક્સ"
       },
       "short": {
-        "en": "Coarse flour for crisp Maharashtrian and Gujarati bhakri.",
-        "hi": "कुरकुरी महाराष्ट्रीयन और गुजराती भाकरी के लिए दरदरा आटा।",
-        "mr": "खुसखुशीत महाराष्ट्रीय आणि गुजराती भाकरीसाठी जाडसर पीठ.",
-        "gu": "કરકરી મહારાષ્ટ્રીયન અને ગુજરાતી ભાખરી માટે કરકરો લોટ."
-      }
+        "en": "We sprouted the moong. You make the chilla.",
+        "hi": "मूंग हमने अंकुरित की। चीला आप बनाइए।",
+        "mr": "मूग आम्ही मोड आणून ठेवले. चिला तुम्ही बनवा.",
+        "gu": "મગ અમે ફણગાવ્યા. ચીલા તમે બનાવો."
+      },
+      "netWeight": null,
+      "priceRupees": null,
+      "ingredients": null,
+      "allergens": null,
+      "shelfLife": null,
+      "cooking": null
+    },
+    {
+      "slug": "sprouts-veggies-red-chilla-mix",
+      "category": "chilla-mixes",
+      "status": "active",
+      "featured": true,
+      "shape": "chilla",
+      "art": {
+        "dough": "#cf6f3e",
+        "fleck": "#3E6B2F"
+      },
+      "name": {
+        "en": "SuChef Sprouts & Veggies Red Chilla Mix",
+        "hi": "सुशेफ स्प्राउट्स और वेजीज़ रेड चीला मिक्स",
+        "mr": "सुशेफ स्प्राउट्स आणि भाज्या रेड चिला मिक्स",
+        "gu": "સુશેફ સ્પ્રાઉટ્સ અને શાકભાજી રેડ ચીલા મિક્સ"
+      },
+      "short": {
+        "en": "A red chilla full of sprouts and veggies, waiting for your tawa.",
+        "hi": "स्प्राउट्स और सब्ज़ियों से भरा लाल चीला, आपके तवे का इंतज़ार करता हुआ।",
+        "mr": "स्प्राउट्स आणि भाज्यांनी भरलेला लाल चिला, तुमच्या तव्याची वाट पाहणारा.",
+        "gu": "સ્પ્રાઉટ્સ અને શાકભાજીથી ભરેલા લાલ ચીલા, તમારી તવીની રાહ જોતા."
+      },
+      "netWeight": null,
+      "priceRupees": null,
+      "ingredients": null,
+      "allergens": null,
+      "shelfLife": null,
+      "cooking": null
     }
   ]
 }

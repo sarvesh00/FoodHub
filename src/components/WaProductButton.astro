@@ -1,0 +1,16 @@
+---
+/**
+ * WhatsApp button with the product name prefilled.
+ * Ordering on: "Order on WhatsApp". Coming-soon mode: "Notify me on WhatsApp" (product named in the message).
+ */
+import WaIcon from './WaIcon.astro';
+import { site } from '../site.config';
+import { useT, waLink, type Lang } from '../lib/i18n';
+interface Props { lang: Lang; product: string; block?: boolean }
+const { lang, product, block = false } = Astro.props;
+const t = useT(lang);
+const text = site.orderingEnabled ? t('product.orderMessage', { product }) : `${t('notify.message')} ${t('notify.messageProduct', { product })}`;
+---
+<a class:list={['btn btn--wa', { 'btn--block': block }]} href={waLink(text)} target="_blank" rel="noopener">
+  <WaIcon /> {t(site.orderingEnabled ? 'product.orderWa' : 'notify.button')}
+</a>

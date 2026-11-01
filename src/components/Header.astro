@@ -1,6 +1,7 @@
 ---
 import { site } from '../site.config';
-import { languages, langs, href, useT, brandFor, type Lang } from '../lib/i18n';
+import Logo from './Logo.astro';
+import { languages, langs, href, useT, type Lang } from '../lib/i18n';
 interface Props { lang: Lang; path: string }
 const { lang, path } = Astro.props;
 const t = useT(lang);
@@ -14,15 +15,8 @@ const current = (to: string) => path.startsWith(to);
 ---
 <header class="site-header">
   <div class="wrap bar">
-    <a class="brand" href={href(lang)}>
-      <svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true">
-        <circle cx="16" cy="16" r="15" fill="var(--c-tawa)" />
-        <circle cx="16" cy="16" r="10.5" fill="var(--c-accent)" />
-        <circle cx="12.5" cy="13" r="1.3" fill="var(--c-primary)" />
-        <circle cx="19" cy="15" r="1.1" fill="var(--c-primary)" />
-        <circle cx="15" cy="19.5" r="1.2" fill="var(--c-primary)" />
-      </svg>
-      <span>{brandFor(lang)}</span>
+    <a class="brand" href={href(lang)} aria-label="SuChef home">
+      <Logo />
     </a>
 
     <nav class="nav-desktop" aria-label="Main">
@@ -56,7 +50,7 @@ const current = (to: string) => path.startsWith(to);
 <style>
   .site-header { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--c-paper) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
   .bar { display: flex; align-items: center; gap: 1rem; min-height: 68px; }
-  .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--c-ink); font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; white-space: nowrap; }
+  .brand { display: flex; align-items: center; text-decoration: none; font-size: 1.75rem; }
   .nav-desktop { display: none; gap: 1.4rem; margin-left: 1.5rem; }
   .nav-desktop a { color: var(--c-ink); text-decoration: none; font-weight: 600; }
   .nav-desktop a:hover, .nav-desktop a[aria-current] { color: var(--c-primary); text-decoration: underline; text-decoration-thickness: 2px; }

@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import WhySuChef from '../../components/WhySuChef.astro';
 import pages from '../../data/pages.json';
 import { langs, pick, type Lang } from '../../lib/i18n';
 
@@ -17,5 +18,8 @@ const body: string[] = pick(s.body as { en: string[] }, lang);
       <p class="lead">{pick(s.intro, lang)}</p>
       {body.map((para) => <p>{para}</p>)}
     </div>
+  </section>
+  <section class="section section--green">
+    <div class="wrap"><WhySuChef lang={lang} /></div>
   </section>
 </Base>
