@@ -8,11 +8,8 @@
 import { site } from '../site.config';
 const claims = ['No preservatives', 'Real ingredients', 'Just add water'];
 ---
-{site.cleanLabelConfirmed ? (
-  <p class="clean" lang="en">{claims.join(' · ')}</p>
-) : (
-  <Fragment set:html="<!-- Clean-label badge placeholder: hidden until the founder confirms the claims (site.cleanLabelConfirmed). -->" />
-)}
+<!-- Clean-label badge placeholder: hidden until the founder confirms the claims (site.cleanLabelConfirmed). -->
+{site.cleanLabelConfirmed && <p class="clean" lang="en">{claims.join(' · ')}</p>}
 
 <style>
   .clean { display: inline-block; margin: 1rem 0 0; padding: 0.45rem 1rem; border-radius: 999px; background: #fff; border: 1.5px solid var(--c-primary); color: var(--c-primary); font-weight: 600; font-size: 0.9rem; }
