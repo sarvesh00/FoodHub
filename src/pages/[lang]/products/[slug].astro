@@ -5,7 +5,7 @@ import ComingSoon from '../../../components/ComingSoon.astro';
 import WaIcon from '../../../components/WaIcon.astro';
 import { site } from '../../../site.config';
 import { langs, href, pick, rupees, useT, withBase, type Lang } from '../../../lib/i18n';
-import { activeProducts, type Product } from '../../../lib/products';
+import { activeProducts, categoryOf, type Product } from '../../../lib/products';
 
 export function getStaticPaths() {
   return langs.flatMap((lang) => activeProducts.map((product) => ({ params: { lang, slug: product.slug }, props: { product } })));
@@ -15,6 +15,7 @@ const { product: p } = Astro.props as { product: Product };
 const t = useT(lang);
 const name = pick(p.name, lang);
 const packs = p.packs ?? [];
+const cat = categoryOf(p);
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -22,6 +23,7 @@ const jsonLd = {
   name: pick(p.name, 'en'),
   description: pick(p.short, 'en'),
   brand: { '@type': 'Brand', name: site.brandName },
+  ...(cat ? { category: pick(cat.name, 'en') } : {}),
   ...(site.showPrices && packs.length
     ? {
         offers: packs.map((k) => ({
@@ -39,12 +41,16 @@ const jsonLd = {
 <Base lang={lang} path={`products/${p.slug}/`} title={name} description={pick(p.short, lang)} jsonLd={jsonLd}>
   <section class="section">
     <div class="wrap">
-      <p class="small"><a href={href(lang, 'products/')}>← {t('product.all')}</a></p>
+      <p class="small crumbs">
+        <a href={href(lang, 'products/')}>{t('product.all')}</a>
+        {cat && <> › <a href={href(lang, `collections/${cat.slug}/`)}>{pick(cat.name, lang)}</a></>}
+      </p>
       <div class="pgrid">
         <div class="art-wrap">
           <ProductArt dough={p.art.dough} fleck={p.art.fleck} label={name} />
         </div>
         <div>
+          {p.featured && <span class="badge flag">{t('product.flagship')}</span>}
           <h1>{name}</h1>
           <p class="lead">{p.description ? pick(p.description, lang) : pick(p.short, lang)}</p>
 
@@ -101,4 +107,5 @@ const jsonLd = {
   .details { display: grid; gap: 2.5rem; margin-top: 3.5rem; }
   @media (min-width: 860px) { .details { grid-template-columns: 1fr 1fr; gap: 4rem; } }
   .details h2 { font-size: 1.5rem; }
+  .flag { background: var(--c-primary); color: #fff; margin-bottom: 0.8rem; }
 </style>

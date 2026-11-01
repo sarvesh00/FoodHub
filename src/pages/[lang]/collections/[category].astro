@@ -1,0 +1,35 @@
+---
+import Base from '../../../layouts/Base.astro';
+import ProductCard from '../../../components/ProductCard.astro';
+import { langs, href, pick, useT, type Lang } from '../../../lib/i18n';
+import { categories, productsIn, upcomingProducts, type Category } from '../../../lib/products';
+
+export function getStaticPaths() {
+  return langs.flatMap((lang) => categories.map((category) => ({ params: { lang, category: category.slug }, props: { category } })));
+}
+const lang = Astro.params.lang as Lang;
+const { category: c } = Astro.props as { category: Category };
+const t = useT(lang);
+const name = pick(c.name, lang);
+const later = upcomingProducts.filter((p) => p.category === c.slug);
+---
+<Base lang={lang} path={`collections/${c.slug}/`} title={name} description={pick(c.short, lang)}>
+  <section class="section">
+    <div class="wrap">
+      <p class="small"><a href={href(lang, 'products/')}>← {t('product.all')}</a></p>
+      <h1>{name}</h1>
+      <p class="lead">{pick(c.short, lang)}</p>
+      <div class="grid grid--2" style="margin-top:2rem">
+        {productsIn(c).map((p) => <ProductCard lang={lang} product={p} />)}
+      </div>
+      {later.length > 0 && (
+        <>
+          <h2 style="margin-top:3rem">{t('product.upcomingTitle')}</h2>
+          <div class="grid grid--3">
+            {later.map((p) => <ProductCard lang={lang} product={p} />)}
+          </div>
+        </>
+      )}
+    </div>
+  </section>
+</Base>

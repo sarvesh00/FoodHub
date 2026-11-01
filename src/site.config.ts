@@ -4,26 +4,26 @@
  * ordering on are all one-line changes in this file.
  */
 export const site = {
-  // ---- Brand (PLACEHOLDER until the final name is chosen) ----
-  brandName: 'Tawa Kitchen',
+  // ---- Brand ----
+  brandName: 'Modern Rasoi',
   // Brand name written in each script. Delete a line to fall back to brandName.
   brandNameLocal: {
-    hi: 'तवा किचन',
-    mr: 'तवा किचन',
-    gu: 'તવા કિચન',
+    hi: 'मॉडर्न रसोई',
+    mr: 'मॉडर्न रसोई',
+    gu: 'મોડર્ન રસોઈ',
   } as Record<string, string>,
 
   tagline: {
-    en: 'Ready-to-cook paratha flours from a Mumbai kitchen',
-    hi: 'मुंबई की रसोई से, तैयार पराठा आटा',
-    mr: 'मुंबईच्या स्वयंपाकघरातून, तयार पराठा पीठ',
-    gu: 'મુંબઈના રસોડેથી, તૈયાર પરાઠા લોટ',
+    en: 'Traditional taste, modern convenience',
+    hi: 'पारंपरिक स्वाद, आधुनिक सुविधा',
+    mr: 'पारंपरिक चव, आधुनिक सोय',
+    gu: 'પરંપરાગત સ્વાદ, આધુનિક સગવડ',
   },
   description: {
-    en: 'Ready-to-cook methi and palak paratha flour mixes. Just add water, knead and cook. Home delivery in Mahim, Dadar and nearby Mumbai areas.',
-    hi: 'तैयार मेथी और पालक पराठा आटा मिक्स। बस पानी डालें, गूंधें और सेकें। माहिम, दादर और आसपास के मुंबई इलाकों में होम डिलीवरी।',
-    mr: 'तयार मेथी आणि पालक पराठा पीठ मिक्स. फक्त पाणी घाला, मळा आणि भाजा. माहीम, दादर आणि जवळच्या मुंबई भागात घरपोच डिलिव्हरी.',
-    gu: 'તૈયાર મેથી અને પાલક પરાઠા લોટ મિક્સ. ફક્ત પાણી ઉમેરો, લોટ બાંધો અને શેકો. માહિમ, દાદર અને આસપાસના મુંબઈ વિસ્તારોમાં હોમ ડિલિવરી.',
+    en: 'Modern Rasoi makes ready-to-cook mixes in Mumbai, starting with methi and palak paratha mixes. Just add water, knead and cook. Home delivery in Mahim, Dadar and nearby areas.',
+    hi: 'मॉडर्न रसोई मुंबई में रेडी-टू-कुक मिक्स बनाती है, शुरुआत मेथी और पालक पराठा मिक्स से। बस पानी डालें, गूंधें और सेकें। माहिम, दादर और आसपास होम डिलीवरी।',
+    mr: 'मॉडर्न रसोई मुंबईत रेडी-टू-कुक मिक्स बनवते, सुरुवात मेथी आणि पालक पराठा मिक्सने. फक्त पाणी घाला, मळा आणि भाजा. माहीम, दादर आणि जवळच्या भागात घरपोच डिलिव्हरी.',
+    gu: 'મોડર્ન રસોઈ મુંબઈમાં રેડી-ટુ-કુક મિક્સ બનાવે છે, શરૂઆત મેથી અને પાલક પરાઠા મિક્સથી. ફક્ત પાણી ઉમેરો, લોટ બાંધો અને શેકો. માહિમ, દાદર અને આસપાસ હોમ ડિલિવરી.',
   },
 
   // ---- Switches ----
@@ -81,7 +81,7 @@ export const site = {
   },
 
   // ---- Analytics (optional, privacy-friendly) ----
-  // Sign up at goatcounter.com and put your code here, e.g. 'tawakitchen'.
+  // Sign up at goatcounter.com and put your code here, e.g. 'modernrasoi'.
   analytics: {
     goatcounterCode: '',
   },

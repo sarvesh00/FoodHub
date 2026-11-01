@@ -1,8 +1,8 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import ProductCard from '../../../components/ProductCard.astro';
-import { langs, useT, type Lang } from '../../../lib/i18n';
-import { activeProducts, upcomingProducts } from '../../../lib/products';
+import { langs, href, pick, useT, type Lang } from '../../../lib/i18n';
+import { categories, productsIn, uncategorised, upcomingProducts } from '../../../lib/products';
 
 export function getStaticPaths() {
   return langs.map((lang) => ({ params: { lang } }));
@@ -15,17 +15,48 @@ const t = useT(lang);
     <div class="wrap">
       <h1>{t('product.listTitle')}</h1>
       <p class="lead">{t('product.listText')}</p>
-      <div class="grid grid--2" style="margin-top:2rem">
-        {activeProducts.map((p) => <ProductCard lang={lang} product={p} />)}
-      </div>
+
+      {categories.length > 1 && (
+        <nav class="cat-nav" aria-label={t('nav.products')}>
+          {categories.map((c) => <a href={`#${c.slug}`}>{pick(c.name, lang)}</a>)}
+        </nav>
+      )}
+
+      {categories.map((c) => (
+        <section class="cat" id={c.slug}>
+          <h2><a href={href(lang, `collections/${c.slug}/`)}>{pick(c.name, lang)}</a></h2>
+          <p class="muted">{pick(c.short, lang)}</p>
+          <div class="grid grid--2">
+            {productsIn(c).map((p) => <ProductCard lang={lang} product={p} />)}
+          </div>
+        </section>
+      ))}
+
+      {uncategorised.length > 0 && (
+        <section class="cat">
+          <div class="grid grid--2">
+            {uncategorised.map((p) => <ProductCard lang={lang} product={p} />)}
+          </div>
+        </section>
+      )}
+
       {upcomingProducts.length > 0 && (
-        <>
-          <h2 style="margin-top:3rem">{t('product.upcomingTitle')}</h2>
+        <section class="cat">
+          <h2>{t('product.upcomingTitle')}</h2>
           <div class="grid grid--3">
             {upcomingProducts.map((p) => <ProductCard lang={lang} product={p} />)}
           </div>
-        </>
+        </section>
       )}
     </div>
   </section>
 </Base>
+
+<style>
+  .cat { margin-top: 3rem; scroll-margin-top: 90px; }
+  .cat h2 a { color: inherit; text-decoration: none; }
+  .cat h2 a:hover { color: var(--c-primary); }
+  .cat > p { max-width: 40rem; }
+  .cat-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .cat-nav a { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 0.4rem 1rem; font-weight: 600; text-decoration: none; color: var(--c-ink); }
+</style>

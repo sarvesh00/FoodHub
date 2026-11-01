@@ -1,0 +1,16 @@
+{
+  "_readme": "Product categories. Each product in products.json points to one with \"category\". status 'active' categories get their own page and appear on the Products page. To add a range (e.g. chutney powders), add a block here, then add products with that category.",
+  "categories": [
+    {
+      "slug": "paratha-mixes",
+      "status": "active",
+      "name": { "en": "Paratha mixes", "hi": "पराठा मिक्स", "mr": "पराठा मिक्स", "gu": "પરાઠા મિક્સ" },
+      "short": {
+        "en": "Whole-wheat flour already mixed with greens, spices and salt. Add water, knead, roll and cook. Hot parathas in about 15 minutes.",
+        "hi": "गेहूं का आटा, पहले से हरी सब्ज़ियों, मसालों और नमक के साथ मिला हुआ। पानी डालें, गूंधें, बेलें और सेकें। लगभग 15 मिनट में गरम पराठे।",
+        "mr": "गव्हाचे पीठ, आधीच पालेभाज्या, मसाले आणि मिठासोबत मिसळलेले. पाणी घाला, मळा, लाटा आणि भाजा. सुमारे 15 मिनिटांत गरम पराठे.",
+        "gu": "ઘઉંનો લોટ, પહેલેથી ભાજી, મસાલા અને મીઠા સાથે મિક્સ કરેલો. પાણી ઉમેરો, લોટ બાંધો, વણો અને શેકો. લગભગ 15 મિનિટમાં ગરમ પરાઠા."
+      }
+    }
+  ]
+}

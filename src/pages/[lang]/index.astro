@@ -5,15 +5,18 @@ import ProductCard from '../../components/ProductCard.astro';
 import ComingSoon from '../../components/ComingSoon.astro';
 import WaIcon from '../../components/WaIcon.astro';
 import { site } from '../../site.config';
-import { langs, href, useT, type Lang } from '../../lib/i18n';
-import { activeProducts, upcomingProducts } from '../../lib/products';
+import { langs, href, pick, useT, type Lang } from '../../lib/i18n';
+import { categories, featuredProducts, upcomingProducts } from '../../lib/products';
 
 export function getStaticPaths() {
   return langs.map((lang) => ({ params: { lang } }));
 }
 const lang = Astro.params.lang as Lang;
 const t = useT(lang);
-const [hero1, hero2] = activeProducts;
+const [hero1, hero2] = featuredProducts;
+const flagshipGroups = categories
+  .map((c) => ({ c, items: featuredProducts.filter((p) => p.category === c.slug) }))
+  .filter((g) => g.items.length > 0);
 const steps = [1, 2, 3] as const;
 const whys = [1, 2, 3] as const;
 ---
@@ -22,7 +25,7 @@ const whys = [1, 2, 3] as const;
     <div class="wrap hero-grid">
       <div>
         {!site.orderingEnabled && <span class="badge badge--dot">{t('soon.badge')}</span>}
-        <h1>{t('home.heroTitle')}</h1>
+        <h1>{pick(site.tagline, lang)}</h1>
         <p class="lead">{t('home.heroText')}</p>
         <div class="btn-row">
           <a class="btn btn--primary" href={href(lang, 'products/')}>{t('home.ctaProducts')}</a>
@@ -59,10 +62,20 @@ const whys = [1, 2, 3] as const;
   <section class="section">
     <div class="wrap">
       <p class="eyebrow">{t('home.productsEyebrow')}</p>
-      <h2>{t('home.productsTitle')}</h2>
-      <div class="grid grid--2 products">
-        {activeProducts.map((p) => <ProductCard lang={lang} product={p} />)}
-      </div>
+      {flagshipGroups.map(({ c, items }) => (
+        <div class="range">
+          <div class="range-head">
+            <div>
+              <h2>{pick(c.name, lang)}</h2>
+              <p class="muted">{pick(c.short, lang)}</p>
+            </div>
+            <a class="more" href={href(lang, `collections/${c.slug}/`)}>{t('home.seeCategory', { category: pick(c.name, lang) })} →</a>
+          </div>
+          <div class="grid grid--2 products">
+            {items.map((p) => <ProductCard lang={lang} product={p} />)}
+          </div>
+        </div>
+      ))}
       {upcomingProducts.length > 0 && (
         <div class="grid grid--3 upcoming">
           {upcomingProducts.map((p) => <ProductCard lang={lang} product={p} />)}
@@ -114,6 +127,10 @@ const whys = [1, 2, 3] as const;
   .how { list-style: none; padding: 0; margin: 1.5rem 0 0; }
   .how .num { display: inline-grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--c-primary); color: #fff; font-weight: 700; margin-bottom: 0.8rem; }
   .products { margin-top: 1.5rem; }
+  .range + .range { margin-top: 3rem; }
+  .range-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 0.5rem 2rem; }
+  .range-head p { max-width: 40rem; margin: 0; }
+  .more { font-weight: 700; text-decoration: none; white-space: nowrap; }
   .upcoming { margin-top: 1.25rem; }
   .area-grid { display: grid; gap: 2rem; align-items: start; }
   @media (min-width: 860px) { .area-grid { grid-template-columns: 1fr 1fr; } }

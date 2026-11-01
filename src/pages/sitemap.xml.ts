@@ -1,12 +1,13 @@
 import type { APIRoute } from 'astro';
 import { languages, langs, withBase } from '../lib/i18n';
-import { activeProducts } from '../lib/products';
+import { activeProducts, categories } from '../lib/products';
 import { policies } from '../data/policies';
 
 export const GET: APIRoute = ({ site }) => {
   const paths = [
     '',
     'products/',
+    ...categories.map((c) => `collections/${c.slug}/`),
     ...activeProducts.map((p) => `products/${p.slug}/`),
     'how-to-cook/',
     'our-story/',
