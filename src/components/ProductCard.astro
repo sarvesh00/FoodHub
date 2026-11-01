@@ -13,7 +13,7 @@ const link = href(lang, `products/${p.slug}/`);
 ---
 <article class:list={['pcard', { upcoming }]}>
   {upcoming ? (
-    <ProductArt class="art" dough={p.art.dough} fleck={p.art.fleck} />
+    <div class="art-box"><ProductArt class="art" dough={p.art.dough} fleck={p.art.fleck} /></div>
   ) : (
     <a href={link} tabindex="-1" aria-hidden="true"><ProductArt class="art" dough={p.art.dough} fleck={p.art.fleck} /></a>
   )}
@@ -32,7 +32,8 @@ const link = href(lang, `products/${p.slug}/`);
 
 <style>
   .pcard { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
-  .pcard > a, .pcard > :global(svg) { display: block; background: var(--paper-2); padding: 1.4rem; }
+  .pcard > a, .art-box { display: block; background: var(--paper-2); padding: 1.4rem; }
+  .body .badge { align-self: flex-start; }
   .pcard :global(.art) { width: 100%; max-width: 260px; margin-inline: auto; transition: transform 0.4s; }
   .pcard:hover :global(.art) { transform: rotate(-8deg) scale(1.02); }
   .upcoming :global(.art) { filter: grayscale(0.55); opacity: 0.75; max-width: 160px; }
