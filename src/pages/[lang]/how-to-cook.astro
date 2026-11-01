@@ -11,6 +11,7 @@ const lang = Astro.params.lang as Lang;
 const t = useT(lang);
 const h = pages.howToCook;
 const base = activeProducts[0];
+const tips: string[] = pick(h.tips as { en: string[] }, lang);
 ---
 <Base lang={lang} path="how-to-cook/" title={t('cook.title')} description={pick(h.intro, lang)}>
   <section class="section">
@@ -24,7 +25,7 @@ const base = activeProducts[0];
       )}
       <h2>{t('cook.tipsTitle')}</h2>
       <ul>
-        {pick<string[]>(h.tips, lang).map((tip) => <li>{tip}</li>)}
+        {tips.map((tip) => <li>{tip}</li>)}
       </ul>
       <p style="margin-top:2rem"><a class="btn btn--primary" href={href(lang, 'products/')}>{t('home.ctaProducts')}</a></p>
     </div>
