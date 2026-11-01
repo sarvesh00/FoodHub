@@ -1,33 +1,37 @@
 ---
 import Base from '../../layouts/Base.astro';
-import pages from '../../data/pages.json';
+import Tbc from '../../components/Tbc.astro';
 import { langs, pick, useT, href, type Lang } from '../../lib/i18n';
-import { activeProducts } from '../../lib/products';
+import { categories, productsIn } from '../../lib/products';
 
 export function getStaticPaths() {
   return langs.map((lang) => ({ params: { lang } }));
 }
 const lang = Astro.params.lang as Lang;
 const t = useT(lang);
-const h = pages.howToCook;
-const base = activeProducts[0];
-const tips: string[] = pick(h.tips as { en: string[] }, lang);
 ---
-<Base lang={lang} path="how-to-cook/" title={t('cook.title')} description={pick(h.intro, lang)}>
+<Base lang={lang} path="how-to-cook/" title={t('cook.title')} description={t('cook.intro')}>
   <section class="section">
     <div class="wrap prose">
       <h1>{t('cook.title')}</h1>
-      <p class="lead">{pick(h.intro, lang)}</p>
-      {base?.cooking && (
-        <ol class="steps" style="margin-top:2rem">
-          {pick(base.cooking, lang).map((s) => <li>{s}</li>)}
-        </ol>
-      )}
-      <h2>{t('cook.tipsTitle')}</h2>
-      <ul>
-        {tips.map((tip) => <li>{tip}</li>)}
-      </ul>
-      <p style="margin-top:2rem"><a class="btn btn--primary" href={href(lang, 'products/')}>{t('home.ctaProducts')}</a></p>
+      <p class="lead">{t('cook.intro')}</p>
+      {categories.map((c) => (
+        <>
+          <h2>{pick(c.name, lang)}</h2>
+          {productsIn(c).map((p) => (
+            <div class="mix">
+              <h3><a href={href(lang, `products/${p.slug}/`)}>{pick(p.name, lang)}</a></h3>
+              {p.cooking ? <ol class="steps">{pick(p.cooking, lang).map((s) => <li>{s}</li>)}</ol> : <p><Tbc lang={lang} /></p>}
+            </div>
+          ))}
+        </>
+      ))}
     </div>
   </section>
 </Base>
+
+<style>
+  .mix { margin: 1rem 0 1.6rem; }
+  .mix h3 { font-size: 1.1rem; }
+  .mix h3 a { color: inherit; }
+</style>

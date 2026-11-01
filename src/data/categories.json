@@ -1,15 +1,52 @@
 {
-  "_readme": "Product categories. Each product in products.json points to one with \"category\". status 'active' categories get their own page and appear on the Products page. To add a range (e.g. chutney powders), add a block here, then add products with that category.",
+  "_readme": "Product categories. Each product in products.json points to one with \"category\". A category appears on the site once it has an active product. To add a range, add a block here, then add its products.",
   "categories": [
     {
       "slug": "paratha-mixes",
       "status": "active",
-      "name": { "en": "Paratha mixes", "hi": "पराठा मिक्स", "mr": "पराठा मिक्स", "gu": "પરાઠા મિક્સ" },
+      "name": {
+        "en": "Paratha Mixes",
+        "hi": "पराठा मिक्स",
+        "mr": "पराठा मिक्स",
+        "gu": "પરાઠા મિક્સ"
+      },
       "short": {
-        "en": "Whole-wheat flour already mixed with greens, spices and salt. Add water, knead, roll and cook. Hot parathas in about 15 minutes.",
-        "hi": "गेहूं का आटा, पहले से हरी सब्ज़ियों, मसालों और नमक के साथ मिला हुआ। पानी डालें, गूंधें, बेलें और सेकें। लगभग 15 मिनट में गरम पराठे।",
-        "mr": "गव्हाचे पीठ, आधीच पालेभाज्या, मसाले आणि मिठासोबत मिसळलेले. पाणी घाला, मळा, लाटा आणि भाजा. सुमारे 15 मिनिटांत गरम पराठे.",
-        "gu": "ઘઉંનો લોટ, પહેલેથી ભાજી, મસાલા અને મીઠા સાથે મિક્સ કરેલો. પાણી ઉમેરો, લોટ બાંધો, વણો અને શેકો. લગભગ 15 મિનિટમાં ગરમ પરાઠા."
+        "en": "The greens are washed, chopped and dried for you. You do the rolling and the tawa.",
+        "hi": "हरी सब्ज़ियां आपके लिए धोई, काटी और सुखाई गई हैं। बेलना और सेकना आपका।",
+        "mr": "पालेभाज्या तुमच्यासाठी धुऊन, चिरून आणि वाळवून ठेवल्या आहेत. लाटणे आणि भाजणे तुमचे.",
+        "gu": "ભાજી તમારા માટે ધોઈ, સમારી અને સૂકવી રાખી છે. વણવાનું અને શેકવાનું તમારું."
+      }
+    },
+    {
+      "slug": "tikki-mixes",
+      "status": "active",
+      "name": {
+        "en": "Tikki Mixes",
+        "hi": "टिक्की मिक्स",
+        "mr": "टिक्की मिक्स",
+        "gu": "ટિક્કી મિક્સ"
+      },
+      "short": {
+        "en": "Weeknight tikkis, without the chopping board.",
+        "hi": "हफ़्ते के बीच की टिक्की, चॉपिंग बोर्ड के बिना।",
+        "mr": "आठवड्याच्या मधल्या दिवशीची टिक्की, चॉपिंग बोर्डशिवाय.",
+        "gu": "અઠવાડિયાની વચ્ચેની ટિક્કી, ચોપિંગ બોર્ડ વગર."
+      }
+    },
+    {
+      "slug": "chilla-mixes",
+      "status": "active",
+      "name": {
+        "en": "Chilla Mixes",
+        "hi": "चीला मिक्स",
+        "mr": "चिला मिक्स",
+        "gu": "ચીલા મિક્સ"
+      },
+      "short": {
+        "en": "Sprouted, chopped and mixed. Your tawa does the rest.",
+        "hi": "अंकुरित, कटा और मिला हुआ। बाक़ी काम आपका तवा करेगा।",
+        "mr": "मोड आणलेले, चिरलेले आणि मिसळलेले. बाकी तुमचा तवा करेल.",
+        "gu": "ફણગાવેલું, સમારેલું અને મિક્સ કરેલું. બાકી તમારી તવી કરશે."
       }
     }
   ]

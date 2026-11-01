@@ -1,16 +1,16 @@
 ---
-import '@fontsource/mukta/400.css';
-import '@fontsource/mukta/600.css';
-import '@fontsource/mukta/700.css';
-import '@fontsource/hind-vadodara/400.css';
-import '@fontsource/hind-vadodara/600.css';
-import '@fontsource/hind-vadodara/700.css';
-import '@fontsource-variable/fraunces';
+import '@fontsource/poppins/latin-400.css';
+import '@fontsource/poppins/latin-500.css';
+import '@fontsource/poppins/latin-600.css';
+import '@fontsource/noto-sans-devanagari/400.css';
+import '@fontsource/noto-sans-devanagari/600.css';
+import '@fontsource/noto-sans-gujarati/400.css';
+import '@fontsource/noto-sans-gujarati/600.css';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../site.config';
-import { languages, langs, withBase, useT, brandFor, pick, type Lang } from '../lib/i18n';
+import { languages, langs, withBase, useT, pick, type Lang } from '../lib/i18n';
 
 interface Props {
   lang: Lang;
@@ -22,19 +22,23 @@ interface Props {
 }
 const { lang, path = '', title, description, jsonLd } = Astro.props;
 const t = useT(lang);
-const brand = brandFor(lang);
-const fullTitle = title ? `${title} · ${brand}` : `${brand} · ${pick(site.tagline, lang)}`;
+// Titles always use the Latin brand name (primary mark).
+const fullTitle = title ? `${title} · ${site.brandName}` : `${site.brandName} · ${site.tagline}`;
 const desc = description ?? pick(site.description, lang);
 const abs = (l: Lang) => new URL(withBase(`${l}/${path}`), Astro.site).href;
 const c = site.colors;
 const cssVars = `--c-primary:${c.primary};--c-accent:${c.accent};--c-ink:${c.ink};--c-paper:${c.paper};--c-tawa:${c.tawa}`;
+const ogImage = new URL(withBase('brand/suchef-logo.svg'), Astro.site).href;
 
 const business = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: site.brandName,
+  legalName: site.legalName,
+  slogan: site.tagline,
   description: pick(site.description, 'en'),
   url: new URL(withBase(''), Astro.site).href,
+  logo: ogImage,
   address: {
     '@type': 'PostalAddress',
     addressLocality: site.location.area,
@@ -54,16 +58,19 @@ const business = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={desc} />
+    <meta name="keywords" content={pick(site.keywords, lang)} />
     <meta name="robots" content={site.allowIndexing ? 'index,follow' : 'noindex,nofollow'} />
-    <meta name="theme-color" content={c.paper} />
+    <meta name="theme-color" content={c.primary} />
     <link rel="canonical" href={abs(lang)} />
     {langs.map((l) => <link rel="alternate" hreflang={languages[l].htmlLang} href={abs(l)} />)}
     <link rel="alternate" hreflang="x-default" href={abs('en')} />
     <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
+    <link rel="manifest" href={withBase('site.webmanifest')} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={desc} />
     <meta property="og:url" content={abs(lang)} />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content={languages[lang].ogLocale} />
     <meta property="og:site_name" content={site.brandName} />
     <script type="application/ld+json" set:html={JSON.stringify(business)} />
@@ -85,6 +92,6 @@ const business = {
 </html>
 
 <style>
-  .demo { background: var(--c-accent); color: var(--c-ink); text-align: center; font-size: 0.9rem; font-weight: 600; padding: 0.4rem 1rem; }
+  .demo { background: var(--c-accent); color: var(--c-ink); text-align: center; font-size: 0.88rem; font-weight: 500; padding: 0.4rem 1rem; }
   .skip:focus { position: fixed !important; width: auto; height: auto; clip: auto; top: 8px; left: 8px; z-index: 100; background: #fff; padding: 0.6rem 1rem; border-radius: 8px; }
 </style>

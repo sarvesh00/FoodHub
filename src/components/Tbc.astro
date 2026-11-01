@@ -1,0 +1,7 @@
+---
+/** Marker for a fact the founder has not confirmed yet. Never replace with a guess. */
+import { useT, type Lang } from '../lib/i18n';
+interface Props { lang: Lang }
+const t = useT(Astro.props.lang);
+---
+<span class="tbc" lang="en">{t('common.tbc')}</span>

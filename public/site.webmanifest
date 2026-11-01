@@ -1,0 +1,9 @@
+{
+  "name": "SuChef",
+  "short_name": "SuChef",
+  "description": "You cook. We prep. Ready-to-cook mixes from Mumbai.",
+  "icons": [{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }],
+  "theme_color": "#3E6B2F",
+  "background_color": "#FAF6EE",
+  "display": "browser"
+}

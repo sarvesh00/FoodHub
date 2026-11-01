@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 80" role="img" aria-label="SuChef">
+  <title>su·chef</title>
+  <g font-family="Poppins, 'Nunito', system-ui, sans-serif" font-weight="600" font-size="64" letter-spacing="-2">
+    <text x="4" y="58" fill="#3E6B2F">su</text>
+    <text x="113" y="58" fill="#2B2B2B">chef</text>
+  </g>
+  <g transform="translate(83 33)">
+    <circle r="12" fill="#2B2B2B"/>
+    <circle r="8.2" fill="none" stroke="#ffffff" stroke-opacity="0.16"/>
+    <circle cx="-2.6" cy="-1.8" r="2.1" fill="#E3A21A"/>
+    <circle cx="1.8" cy="-2.8" r="1.4" fill="#E3A21A"/>
+    <circle cx="0.9" cy="1.8" r="1.8" fill="#E3A21A"/>
+    <circle cx="-2.2" cy="2.4" r="1" fill="#E3A21A"/>
+  </g>
+</svg>

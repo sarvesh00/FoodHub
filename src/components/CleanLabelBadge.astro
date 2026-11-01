@@ -1,0 +1,19 @@
+---
+/**
+ * Clean-label badge (brand brief §8): "No preservatives · Real ingredients · Just add water".
+ * PLACEHOLDER ONLY. Renders nothing but an HTML comment until site.cleanLabelConfirmed is true,
+ * which the founder sets only after confirming every claim is true and FSSAI-compliant.
+ * Edit the claims list to keep only the confirmed ones.
+ */
+import { site } from '../site.config';
+const claims = ['No preservatives', 'Real ingredients', 'Just add water'];
+---
+{site.cleanLabelConfirmed ? (
+  <p class="clean" lang="en">{claims.join(' · ')}</p>
+) : (
+  <Fragment set:html="<!-- Clean-label badge placeholder: hidden until the founder confirms the claims (site.cleanLabelConfirmed). -->" />
+)}
+
+<style>
+  .clean { display: inline-block; margin: 1rem 0 0; padding: 0.45rem 1rem; border-radius: 999px; background: #fff; border: 1.5px solid var(--c-primary); color: var(--c-primary); font-weight: 600; font-size: 0.9rem; }
+</style>

@@ -1,61 +1,72 @@
 /**
  * ONE FILE FOR THE BRAND.
- * Renaming the brand, changing colours, the WhatsApp number or switching
- * ordering on are all one-line changes in this file.
+ * Source of truth for brand decisions: brand/suchef-brand-brief.md in the FoodHub project.
+ * Renaming, colours, WhatsApp number, handles and switches are one-line changes here.
  */
 export const site = {
   // ---- Brand ----
-  brandName: 'Modern Rasoi',
-  // Brand name written in each script. Delete a line to fall back to brandName.
+  brandName: 'SuChef', // always "SuChef": capital S, capital C, one word
+  legalName: 'SuChef Foods',
+  // Script versions for running text. The Latin su·chef logo stays primary on every page.
   brandNameLocal: {
-    hi: 'मॉडर्न रसोई',
-    mr: 'मॉडर्न रसोई',
-    gu: 'મોડર્ન રસોઈ',
+    hi: 'सुशेफ',
+    mr: 'सुशेफ',
+    gu: 'સુશેફ',
   } as Record<string, string>,
 
-  tagline: {
-    en: 'Traditional taste, modern convenience',
-    hi: 'पारंपरिक स्वाद, आधुनिक सुविधा',
-    mr: 'पारंपरिक चव, आधुनिक सोय',
-    gu: 'પરંપરાગત સ્વાદ, આધુનિક સગવડ',
+  // Primary tagline stays in English in every language, with a translated sub-line under it.
+  tagline: 'You cook. We prep.',
+  taglineSub: {
+    en: '',
+    hi: 'आप पकाइए, तैयारी हमारी।',
+    mr: 'तुम्ही शिजवा, तयारी आमची.',
+    gu: 'તમે રાંધો, તૈયારી અમારી.',
   },
+
+  // SEO
   description: {
-    en: 'Modern Rasoi makes ready-to-cook mixes in Mumbai, starting with methi and palak paratha mixes. Just add water, knead and cook. Home delivery in Mahim, Dadar and nearby areas.',
-    hi: 'मॉडर्न रसोई मुंबई में रेडी-टू-कुक मिक्स बनाती है, शुरुआत मेथी और पालक पराठा मिक्स से। बस पानी डालें, गूंधें और सेकें। माहिम, दादर और आसपास होम डिलीवरी।',
-    mr: 'मॉडर्न रसोई मुंबईत रेडी-टू-कुक मिक्स बनवते, सुरुवात मेथी आणि पालक पराठा मिक्सने. फक्त पाणी घाला, मळा आणि भाजा. माहीम, दादर आणि जवळच्या भागात घरपोच डिलिव्हरी.',
-    gu: 'મોડર્ન રસોઈ મુંબઈમાં રેડી-ટુ-કુક મિક્સ બનાવે છે, શરૂઆત મેથી અને પાલક પરાઠા મિક્સથી. ફક્ત પાણી ઉમેરો, લોટ બાંધો અને શેકો. માહિમ, દાદર અને આસપાસ હોમ ડિલિવરી.',
+    en: 'SuChef makes ready-to-cook paratha mixes, tikki mixes and chilla mixes in Mumbai. We do the washing, chopping, drying and sprouting; you cook it fresh at home. Local delivery in Mahim and Dadar, with NRI shipping coming soon.',
+    hi: 'सुशेफ मुंबई में रेडी-टू-कुक पराठा मिक्स, टिक्की मिक्स और चीला मिक्स बनाता है। धोना, काटना, सुखाना और अंकुरित करना हमारा; ताज़ा पकाना आपका। माहिम और दादर में लोकल डिलीवरी, NRI शिपिंग जल्द।',
+    mr: 'सुशेफ मुंबईत रेडी-टू-कुक पराठा मिक्स, टिक्की मिक्स आणि चिला मिक्स बनवते. धुणे, चिरणे, वाळवणे आणि मोड आणणे आमचे; ताजे शिजवणे तुमचे. माहीम आणि दादरमध्ये लोकल डिलिव्हरी, NRI शिपिंग लवकरच.',
+    gu: 'સુશેફ મુંબઈમાં રેડી-ટુ-કુક પરાઠા મિક્સ, ટિક્કી મિક્સ અને ચીલા મિક્સ બનાવે છે. ધોવાનું, સમારવાનું, સૂકવવાનું અને ફણગાવવાનું અમારું; તાજું રાંધવાનું તમારું. માહિમ અને દાદરમાં લોકલ ડિલિવરી, NRI શિપિંગ ટૂંક સમયમાં.',
+  },
+  keywords: {
+    en: 'ready-to-cook paratha mix, methi paratha mix, tikki mix, chilla mix, homemade food, ready to cook Mumbai, Mahim, Dadar, NRI Indian food',
+    hi: 'रेडी-टू-कुक पराठा मिक्स, मेथी पराठा मिक्स, टिक्की मिक्स, चीला मिक्स, घर का खाना, मुंबई, NRI',
+    mr: 'रेडी-टू-कुक पराठा मिक्स, मेथी पराठा मिक्स, टिक्की मिक्स, चिला मिक्स, घरगुती जेवण, मुंबई, NRI',
+    gu: 'રેડી-ટુ-કુક પરાઠા મિક્સ, મેથી પરાઠા મિક્સ, ટિક્કી મિક્સ, ચીલા મિક્સ, ઘરનું જમવાનું, મુંબઈ, NRI',
   },
 
   // ---- Switches ----
-  // Shows a "sample site" banner. Turn off once real details are in.
-  demoMode: true,
-  // false = "coming soon / notify me" mode. Needs fssaiNumber before it can be true.
-  orderingEnabled: false,
-  // Lets Google index the site. Keep false while the content is placeholder.
-  allowIndexing: false,
-  // Show prices while in coming-soon mode.
-  showPrices: true,
+  demoMode: true, // "sample site" banner
+  orderingEnabled: false, // false = coming soon / notify me. Needs fssaiNumber first.
+  allowIndexing: false, // let Google index the site
+  showPrices: true, // show prices once they are filled in
+  // Clean-label badge ("No preservatives · Real ingredients · Just add water").
+  // Keep false until the founder confirms every claim is true and FSSAI-compliant.
+  cleanLabelConfirmed: false,
 
   // ---- Compliance ----
-  // 14-digit FSSAI registration number. Shown in the footer and on product pages.
+  // 14-digit FSSAI number. Nothing FSSAI-related is shown on the site while this is empty.
   fssaiNumber: '',
 
-  // ---- Contact ----
-  // International format, digits only, e.g. '919812345678'.
-  // Left empty, WhatsApp opens and asks the customer to pick a contact (safe for testing).
-  whatsappNumber: '',
+  // ---- Contact & social ----
+  whatsappNumber: '', // digits only, e.g. '919812345678'. Empty = WhatsApp asks which contact.
   phoneDisplay: '',
-  instagram: '', // handle without @
+  instagram: 'suchef.foods', // same handle on all platforms
+  hashtag: 'SuChefSorted',
   email: '',
   googleBusinessProfileUrl: '',
+  // Planned domain (not bought yet). See docs/custom-domain.md.
+  plannedDomain: 'suchef.in',
 
-  // ---- Look ----
+  // ---- Look (brand palette) ----
   colors: {
-    primary: '#2f5d3a', // methi green
-    accent: '#d9982b', // ghee / turmeric
-    ink: '#2a211b', // text
-    paper: '#fbf6ec', // background
-    tawa: '#34302d', // dark sections
+    primary: '#3E6B2F', // methi green
+    accent: '#E3A21A', // turmeric
+    paper: '#FAF6EE', // off-white
+    ink: '#2B2B2B', // charcoal
+    tawa: '#2B2B2B', // dark sections
   },
 
   // ---- Location & delivery ----
@@ -67,7 +78,6 @@ export const site = {
     country: 'IN',
   },
   delivery: {
-    // Pincodes we deliver to ourselves (Phase 1). Edit freely.
     pincodes: {
       '400016': 'Mahim',
       '400028': 'Dadar West / Shivaji Park',
@@ -76,14 +86,12 @@ export const site = {
       '400025': 'Prabhadevi',
     } as Record<string, string>,
     feeRupees: 0,
-    freeAboveRupees: 0, // 0 = no free-delivery threshold shown
+    freeAboveRupees: 0,
     minOrderRupees: 0,
   },
 
-  // ---- Analytics (optional, privacy-friendly) ----
-  // Sign up at goatcounter.com and put your code here, e.g. 'modernrasoi'.
   analytics: {
-    goatcounterCode: '',
+    goatcounterCode: '', // e.g. 'suchef'
   },
 };
 

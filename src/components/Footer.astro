@@ -1,26 +1,28 @@
 ---
 import { site } from '../site.config';
-import { href, useT, brandFor, waLink, pick, type Lang } from '../lib/i18n';
+import { href, useT, waLink, pick, type Lang } from '../lib/i18n';
+import Logo from './Logo.astro';
 import WaIcon from './WaIcon.astro';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = useT(lang);
 const year = new Date().getFullYear();
+const sub = pick(site.taglineSub, lang);
 ---
 <footer class="site-footer section--dark">
   <div class="wrap cols">
     <div>
-      <p class="f-brand">{brandFor(lang)}</p>
-      <p class="muted-d">{pick(site.tagline, lang)}</p>
-      <p class="fssai">
-        {site.fssaiNumber ? <>{t('footer.fssai')}: <strong>{site.fssaiNumber}</strong></> : t('footer.fssaiPending')}
-      </p>
+      <p class="f-logo"><Logo tone="light" /></p>
+      <p class="f-tag">{site.tagline}{sub && <span class="muted-d"> · {sub}</span>}</p>
+      <p class="muted-d small">{t('footer.hashtag', { hashtag: `#${site.hashtag}` })}</p>
+      {site.fssaiNumber && <p class="fssai">{t('footer.fssai')}: <strong>{site.fssaiNumber}</strong></p>}
     </div>
     <div>
       <p class="f-head">{t('nav.contact')}</p>
       <ul>
         <li><a href={waLink(t('notify.message'))} target="_blank" rel="noopener"><WaIcon size={16} /> {t('contact.whatsapp')}</a></li>
         {site.instagram && <li><a href={`https://instagram.com/${site.instagram}`} target="_blank" rel="noopener">Instagram @{site.instagram}</a></li>}
+        <li><span class="hash">#{site.hashtag}</span></li>
         {site.email && <li><a href={`mailto:${site.email}`}>{site.email}</a></li>}
         <li class="muted-d">{site.location.area}</li>
       </ul>
@@ -36,7 +38,7 @@ const year = new Date().getFullYear();
     </div>
   </div>
   <div class="wrap legal">
-    <span>© {year} {site.brandName}. {t('footer.made')}</span>
+    <span>© {year} {site.legalName}. {t('footer.made')}</span>
   </div>
 </footer>
 
@@ -44,12 +46,14 @@ const year = new Date().getFullYear();
   .site-footer { padding-block: 3rem 1.5rem; margin-top: 0; }
   .cols { display: grid; gap: 2rem; }
   @media (min-width: 720px) { .cols { grid-template-columns: 2fr 1fr 1fr; } }
-  .f-brand { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; margin-bottom: 0.3rem; }
-  .f-head { font-weight: 700; margin-bottom: 0.6rem; color: #fff; }
+  .f-logo { font-size: 2rem; margin-bottom: 0.6rem; }
+  .f-tag { font-weight: 500; margin-bottom: 0.4rem; }
+  .f-head { font-weight: 600; margin-bottom: 0.6rem; color: #fff; }
   ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
   a { display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none; }
   a:hover { text-decoration: underline; }
-  .muted-d { color: #c9bfae; }
-  .fssai { margin-top: 1rem; font-size: 0.95rem; color: #e8dfcf; }
-  .legal { border-top: 1px solid rgb(255 255 255 / 0.12); margin-top: 2rem; padding-top: 1.2rem; font-size: 0.85rem; color: #b5ab9b; }
+  .hash { color: var(--c-accent); font-weight: 600; }
+  .muted-d { color: #c8c3b8; }
+  .fssai { margin-top: 1rem; font-size: 0.95rem; color: #e8e2d6; }
+  .legal { border-top: 1px solid rgb(255 255 255 / 0.12); margin-top: 2rem; padding-top: 1.2rem; font-size: 0.85rem; color: #aaa59b; }
 </style>

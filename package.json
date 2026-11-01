@@ -1,6 +1,6 @@
 {
-  "name": "foodhub-site",
-  "version": "0.1.0",
+  "name": "suchef-site",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,9 +12,9 @@
     "node": ">=20.3.0"
   },
   "dependencies": {
-    "@fontsource-variable/fraunces": "^5.0.0",
-    "@fontsource/hind-vadodara": "^5.0.0",
-    "@fontsource/mukta": "^5.0.0",
+    "@fontsource/noto-sans-devanagari": "^5.0.0",
+    "@fontsource/noto-sans-gujarati": "^5.0.0",
+    "@fontsource/poppins": "^5.0.0",
     "astro": "^5.0.0"
   }
 }

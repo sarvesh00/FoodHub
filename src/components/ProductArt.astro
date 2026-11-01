@@ -1,44 +1,76 @@
 ---
-/** Placeholder illustration: a paratha on a tawa, tinted per product. Replace with real photos later. */
-interface Props { dough: string; fleck: string; label?: string; class?: string }
-const { dough, fleck, label = '', class: className } = Astro.props;
+/**
+ * Placeholder illustration on a tawa, tinted per product. Replace with real photos later.
+ * shape: paratha (one round) | tikki (three patties) | chilla (thin, wavy-edged)
+ */
+interface Props { dough: string; fleck: string; shape?: 'paratha' | 'tikki' | 'chilla'; label?: string; class?: string }
+const { dough, fleck, shape = 'paratha', label = '', class: className } = Astro.props;
 
-let seed = [...(dough + fleck)].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+let seed = [...(dough + fleck + shape)].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
 const rnd = () => {
   seed = (seed * 1664525 + 1013904223) >>> 0;
   return seed / 2 ** 32;
 };
 const id = `pa-${seed.toString(36)}`;
-const spots = Array.from({ length: 10 }, () => {
-  const r = Math.sqrt(rnd()) * 66;
-  const a = rnd() * Math.PI * 2;
-  return { x: 100 + Math.cos(a) * r, y: 100 + Math.sin(a) * r, rx: 5 + rnd() * 9, ry: 3 + rnd() * 6, rot: rnd() * 180 };
-});
-const flecks = Array.from({ length: 54 }, () => {
-  const r = Math.sqrt(rnd()) * 76;
-  const a = rnd() * Math.PI * 2;
-  return { x: 100 + Math.cos(a) * r, y: 100 + Math.sin(a) * r, w: 1.6 + rnd() * 3.6, h: 1 + rnd() * 1.6, rot: rnd() * 180 };
+const f = (n: number) => n.toFixed(1);
+
+type Disc = { cx: number; cy: number; r: number };
+const discs: Disc[] =
+  shape === 'tikki'
+    ? [{ cx: 72, cy: 78, r: 34 }, { cx: 130, cy: 84, r: 32 }, { cx: 100, cy: 136, r: 33 }]
+    : [{ cx: 100, cy: 100, r: shape === 'chilla' ? 82 : 76 }];
+
+// Wobbly outline so it looks hand-made; chilla edges are lacier.
+function outline(d: Disc): string {
+  const pts = 28;
+  const wob = shape === 'chilla' ? 0.07 : 0.03;
+  const out: string[] = [];
+  for (let i = 0; i < pts; i++) {
+    const a = (i / pts) * Math.PI * 2;
+    const r = d.r * (1 - wob + rnd() * wob * 2);
+    out.push(`${f(d.cx + Math.cos(a) * r)},${f(d.cy + Math.sin(a) * r)}`);
+  }
+  return `M${out.join(' L')} Z`;
+}
+const shapes = discs.map((d) => {
+  const count = shape === 'tikki' ? 16 : 54;
+  const flecks = Array.from({ length: count }, () => {
+    const r = Math.sqrt(rnd()) * d.r * 0.85;
+    const a = rnd() * Math.PI * 2;
+    return { x: d.cx + Math.cos(a) * r, y: d.cy + Math.sin(a) * r, w: 1.4 + rnd() * 3.2, h: 0.9 + rnd() * 1.5, rot: rnd() * 180, alt: shape === 'chilla' && rnd() < 0.25 };
+  });
+  const spots = Array.from({ length: shape === 'tikki' ? 3 : 9 }, () => {
+    const r = Math.sqrt(rnd()) * d.r * 0.75;
+    const a = rnd() * Math.PI * 2;
+    return { x: d.cx + Math.cos(a) * r, y: d.cy + Math.sin(a) * r, rx: d.r * (0.07 + rnd() * 0.1), ry: d.r * (0.04 + rnd() * 0.07), rot: rnd() * 180 };
+  });
+  return { d, path: outline(d), flecks, spots };
 });
 ---
 <svg class={className} viewBox="0 0 200 200" role={label ? 'img' : 'presentation'} aria-label={label || undefined}>
   <defs>
     <radialGradient id={`${id}-tawa`} cx="40%" cy="35%" r="75%">
-      <stop offset="0" stop-color="#4a4440" />
-      <stop offset="1" stop-color="#1f1c1a" />
+      <stop offset="0" stop-color="#4a4a48" />
+      <stop offset="1" stop-color="#1e1e1d" />
     </radialGradient>
     <radialGradient id={`${id}-dough`} cx="45%" cy="40%" r="65%">
       <stop offset="0" stop-color={dough} />
-      <stop offset="1" stop-color={dough} stop-opacity="0.82" />
+      <stop offset="1" stop-color={dough} stop-opacity="0.84" />
     </radialGradient>
   </defs>
   <circle cx="100" cy="100" r="99" fill={`url(#${id}-tawa)`} />
-  <circle cx="100" cy="100" r="92" fill="none" stroke="#5a534e" stroke-width="1" opacity="0.6" />
-  <path d="M 100 14 C 150 12, 188 52, 186 100 C 188 150, 148 186, 100 186 C 52 188, 12 150, 14 100 C 12 52, 50 16, 100 14 Z" transform="scale(0.92) translate(8.7 8.7)" fill={`url(#${id}-dough)`} />
-  {spots.map((s) => (
-    <ellipse cx={s.x.toFixed(1)} cy={s.y.toFixed(1)} rx={s.rx.toFixed(1)} ry={s.ry.toFixed(1)} transform={`rotate(${s.rot.toFixed(0)} ${s.x.toFixed(1)} ${s.y.toFixed(1)})`} fill="#7a4a1f" opacity="0.28" />
+  <circle cx="100" cy="100" r="92" fill="none" stroke="#5c5c58" stroke-width="1" opacity="0.6" />
+  {shapes.map((s) => (
+    <g>
+      {shape === 'tikki' && <path d={s.path} fill="#6b3d1c" opacity="0.55" transform="translate(1.5 2.5)" />}
+      <path d={s.path} fill={`url(#${id}-dough)`} stroke={shape === 'tikki' ? '#7a4a20' : 'none'} stroke-width="2.5" stroke-opacity="0.5" />
+      {s.spots.map((p) => (
+        <ellipse cx={f(p.x)} cy={f(p.y)} rx={f(p.rx)} ry={f(p.ry)} transform={`rotate(${p.rot.toFixed(0)} ${f(p.x)} ${f(p.y)})`} fill="#7a4a1f" opacity="0.26" />
+      ))}
+      {s.flecks.map((k) => (
+        <ellipse cx={f(k.x)} cy={f(k.y)} rx={f(k.w)} ry={f(k.h)} transform={`rotate(${k.rot.toFixed(0)} ${f(k.x)} ${f(k.y)})`} fill={k.alt ? '#E3A21A' : fleck} opacity="0.85" />
+      ))}
+      <ellipse cx={f(s.d.cx - s.d.r * 0.3)} cy={f(s.d.cy - s.d.r * 0.38)} rx={f(s.d.r * 0.42)} ry={f(s.d.r * 0.2)} transform={`rotate(-25 ${f(s.d.cx - s.d.r * 0.3)} ${f(s.d.cy - s.d.r * 0.38)})`} fill="#fff" opacity="0.12" />
+    </g>
   ))}
-  {flecks.map((f) => (
-    <ellipse cx={f.x.toFixed(1)} cy={f.y.toFixed(1)} rx={f.w.toFixed(1)} ry={f.h.toFixed(1)} transform={`rotate(${f.rot.toFixed(0)} ${f.x.toFixed(1)} ${f.y.toFixed(1)})`} fill={fleck} opacity="0.85" />
-  ))}
-  <ellipse cx="78" cy="70" rx="34" ry="18" fill="#fff" opacity="0.12" transform="rotate(-25 78 70)" />
 </svg>

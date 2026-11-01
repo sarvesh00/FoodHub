@@ -1,0 +1,23 @@
+---
+import Logo from './Logo.astro';
+import { useT, type Lang } from '../lib/i18n';
+interface Props { lang: Lang }
+const t = useT(Astro.props.lang);
+---
+<div class="why">
+  <div class="mark" aria-hidden="true"><Logo /></div>
+  <div>
+    <p class="eyebrow">{t('why.eyebrow')}</p>
+    <h2 class="subhead-h">{t('why.subhead')}</h2>
+    <p class="lead">{t('why.body')}</p>
+    <blockquote>{t('why.quote')}</blockquote>
+  </div>
+</div>
+
+<style>
+  .why { display: grid; gap: 2rem; align-items: center; }
+  @media (min-width: 860px) { .why { grid-template-columns: 0.9fr 1.3fr; gap: 4rem; } }
+  .mark { font-size: clamp(3.2rem, 11vw, 6rem); background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--line); box-shadow: var(--shadow); display: grid; place-items: center; padding: 2.5rem 1rem; }
+  .subhead-h { color: var(--c-primary); }
+  blockquote { margin: 1.2rem 0 0; padding: 0.2rem 0 0.2rem 1rem; border-left: 4px solid var(--c-accent); font-size: 1.3rem; font-weight: 600; }
+</style>
