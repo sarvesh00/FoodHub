@@ -15,7 +15,7 @@ const en = {
   'nav.language': 'Language',
   'nav.skip': 'Skip to content',
 
-  'demo.banner': 'Sample site: the brand name, prices and product details are placeholders.',
+  'demo.banner': 'Sample site: prices and product details are placeholders.',
 
   'soon.badge': 'Launching soon in Mumbai',
   'soon.title': 'We open for orders soon',
@@ -149,7 +149,7 @@ const hi: Dict = {
   'nav.language': 'भाषा',
   'nav.skip': 'सीधे सामग्री पर जाएं',
 
-  'demo.banner': 'नमूना साइट: ब्रांड का नाम, कीमतें और उत्पाद की जानकारी अभी अस्थायी हैं।',
+  'demo.banner': 'नमूना साइट: कीमतें और उत्पाद की जानकारी अभी अस्थायी हैं।',
 
   'soon.badge': 'जल्द ही मुंबई में',
   'soon.title': 'ऑर्डर जल्द शुरू होंगे',
@@ -280,7 +280,7 @@ const mr: Dict = {
   'nav.language': 'भाषा',
   'nav.skip': 'थेट मजकुराकडे जा',
 
-  'demo.banner': 'नमुना साइट: ब्रँडचे नाव, किमती आणि उत्पादनांची माहिती तात्पुरती आहे.',
+  'demo.banner': 'नमुना साइट: किमती आणि उत्पादनांची माहिती तात्पुरती आहे.',
 
   'soon.badge': 'लवकरच मुंबईत',
   'soon.title': 'ऑर्डर लवकरच सुरू',
@@ -411,7 +411,7 @@ const gu: Dict = {
   'nav.language': 'ભાષા',
   'nav.skip': 'સીધા સામગ્રી પર જાઓ',
 
-  'demo.banner': 'નમૂના સાઇટ: બ્રાન્ડનું નામ, કિંમતો અને ઉત્પાદનની વિગતો હજી કામચલાઉ છે.',
+  'demo.banner': 'નમૂના સાઇટ: કિંમતો અને ઉત્પાદનની વિગતો હજી કામચલાઉ છે.',
 
   'soon.badge': 'ટૂંક સમયમાં મુંબઈમાં',
   'soon.title': 'ઓર્ડર ટૂંક સમયમાં શરૂ',
