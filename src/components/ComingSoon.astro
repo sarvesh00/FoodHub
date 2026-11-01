@@ -1,0 +1,21 @@
+---
+import WaIcon from './WaIcon.astro';
+import { useT, waLink, type Lang } from '../lib/i18n';
+interface Props { lang: Lang; product?: string; compact?: boolean }
+const { lang, product, compact = false } = Astro.props;
+const t = useT(lang);
+const msg = t('notify.message') + (product ? ' ' + t('notify.messageProduct', { product }) : '');
+---
+<div class:list={['soon', { compact }]}>
+  <span class="badge badge--dot">{t('soon.badge')}</span>
+  {!compact && <h2>{t('soon.title')}</h2>}
+  <p>{t('soon.text')}</p>
+  <a class="btn btn--wa" href={waLink(msg)} target="_blank" rel="noopener"><WaIcon /> {t('notify.button')}</a>
+</div>
+
+<style>
+  .soon { background: #fff; border: 2px dashed color-mix(in srgb, var(--c-accent) 60%, transparent); border-radius: var(--radius-lg); padding: 1.6rem; }
+  .soon h2 { margin-top: 0.8rem; font-size: 1.6rem; }
+  .soon p { color: var(--muted); margin-top: 0.6rem; }
+  .compact { padding: 1.2rem; }
+</style>

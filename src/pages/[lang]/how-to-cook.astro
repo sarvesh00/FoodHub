@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import pages from '../../data/pages.json';
+import { langs, pick, useT, href, type Lang } from '../../lib/i18n';
+import { activeProducts } from '../../lib/products';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const t = useT(lang);
+const h = pages.howToCook;
+const base = activeProducts[0];
+---
+<Base lang={lang} path="how-to-cook/" title={t('cook.title')} description={pick(h.intro, lang)}>
+  <section class="section">
+    <div class="wrap prose">
+      <h1>{t('cook.title')}</h1>
+      <p class="lead">{pick(h.intro, lang)}</p>
+      {base?.cooking && (
+        <ol class="steps" style="margin-top:2rem">
+          {pick(base.cooking, lang).map((s) => <li>{s}</li>)}
+        </ol>
+      )}
+      <h2>{t('cook.tipsTitle')}</h2>
+      <ul>
+        {pick<string[]>(h.tips, lang).map((tip) => <li>{tip}</li>)}
+      </ul>
+      <p style="margin-top:2rem"><a class="btn btn--primary" href={href(lang, 'products/')}>{t('home.ctaProducts')}</a></p>
+    </div>
+  </section>
+</Base>

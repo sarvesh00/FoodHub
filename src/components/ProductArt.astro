@@ -1,0 +1,44 @@
+---
+/** Placeholder illustration: a paratha on a tawa, tinted per product. Replace with real photos later. */
+interface Props { dough: string; fleck: string; label?: string; class?: string }
+const { dough, fleck, label = '', class: className } = Astro.props;
+
+let seed = [...(dough + fleck)].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+const rnd = () => {
+  seed = (seed * 1664525 + 1013904223) >>> 0;
+  return seed / 2 ** 32;
+};
+const id = `pa-${seed.toString(36)}`;
+const spots = Array.from({ length: 10 }, () => {
+  const r = Math.sqrt(rnd()) * 66;
+  const a = rnd() * Math.PI * 2;
+  return { x: 100 + Math.cos(a) * r, y: 100 + Math.sin(a) * r, rx: 5 + rnd() * 9, ry: 3 + rnd() * 6, rot: rnd() * 180 };
+});
+const flecks = Array.from({ length: 54 }, () => {
+  const r = Math.sqrt(rnd()) * 76;
+  const a = rnd() * Math.PI * 2;
+  return { x: 100 + Math.cos(a) * r, y: 100 + Math.sin(a) * r, w: 1.6 + rnd() * 3.6, h: 1 + rnd() * 1.6, rot: rnd() * 180 };
+});
+---
+<svg class={className} viewBox="0 0 200 200" role={label ? 'img' : 'presentation'} aria-label={label || undefined}>
+  <defs>
+    <radialGradient id={`${id}-tawa`} cx="40%" cy="35%" r="75%">
+      <stop offset="0" stop-color="#4a4440" />
+      <stop offset="1" stop-color="#1f1c1a" />
+    </radialGradient>
+    <radialGradient id={`${id}-dough`} cx="45%" cy="40%" r="65%">
+      <stop offset="0" stop-color={dough} />
+      <stop offset="1" stop-color={dough} stop-opacity="0.82" />
+    </radialGradient>
+  </defs>
+  <circle cx="100" cy="100" r="99" fill={`url(#${id}-tawa)`} />
+  <circle cx="100" cy="100" r="92" fill="none" stroke="#5a534e" stroke-width="1" opacity="0.6" />
+  <path d="M 100 14 C 150 12, 188 52, 186 100 C 188 150, 148 186, 100 186 C 52 188, 12 150, 14 100 C 12 52, 50 16, 100 14 Z" transform="scale(0.92) translate(8.7 8.7)" fill={`url(#${id}-dough)`} />
+  {spots.map((s) => (
+    <ellipse cx={s.x.toFixed(1)} cy={s.y.toFixed(1)} rx={s.rx.toFixed(1)} ry={s.ry.toFixed(1)} transform={`rotate(${s.rot.toFixed(0)} ${s.x.toFixed(1)} ${s.y.toFixed(1)})`} fill="#7a4a1f" opacity="0.28" />
+  ))}
+  {flecks.map((f) => (
+    <ellipse cx={f.x.toFixed(1)} cy={f.y.toFixed(1)} rx={f.w.toFixed(1)} ry={f.h.toFixed(1)} transform={`rotate(${f.rot.toFixed(0)} ${f.x.toFixed(1)} ${f.y.toFixed(1)})`} fill={fleck} opacity="0.85" />
+  ))}
+  <ellipse cx="78" cy="70" rx="34" ry="18" fill="#fff" opacity="0.12" transform="rotate(-25 78 70)" />
+</svg>

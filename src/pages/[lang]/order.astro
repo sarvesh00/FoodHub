@@ -1,0 +1,269 @@
+---
+import Base from '../../layouts/Base.astro';
+import WaIcon from '../../components/WaIcon.astro';
+import { site } from '../../site.config';
+import { langs, pick, rupees, useT, waLink, type Lang } from '../../lib/i18n';
+import { activeProducts } from '../../lib/products';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const t = useT(lang);
+const open = site.orderingEnabled;
+
+const items = activeProducts.flatMap((p) =>
+  (p.packs ?? []).map((k) => ({ key: `${p.slug}:${k.id}`, slug: p.slug, name: pick(p.name, lang), size: k.size, price: k.priceRupees })),
+);
+
+const labelKeys = [
+  'order.pinOk', 'order.pinNo', 'order.pinInvalid', 'order.empty', 'order.missing', 'order.minimum', 'order.free',
+  'order.msgHello', 'order.subtotal', 'order.delivery', 'order.total', 'order.msgPayment', 'order.msgName',
+  'order.msgAddress', 'order.msgLandmark', 'order.msgPincode', 'order.msgWhen', 'order.msgNotes',
+  'notify.message', 'notify.messageArea',
+] as const;
+const labels = Object.fromEntries(labelKeys.map((k) => [k, t(k)]));
+
+const data = {
+  open,
+  wa: site.whatsappNumber.replace(/\D/g, ''),
+  pincodes: site.delivery.pincodes,
+  fee: site.delivery.feeRupees,
+  freeAbove: site.delivery.freeAboveRupees,
+  minOrder: site.delivery.minOrderRupees,
+  items,
+  labels,
+};
+---
+<Base lang={lang} path="order/" title={t(open ? 'order.title' : 'contact.title')} description={t('order.intro')}>
+  <section class="section">
+    <div class="wrap">
+      <h1>{t(open ? 'order.title' : 'contact.title')}</h1>
+
+      {open ? (
+        <>
+          <p class="lead">{t('order.intro')}</p>
+          <form id="order-form" class="order-grid" novalidate>
+            <div>
+              <h2>{t('order.choose')}</h2>
+              <div class="items">
+                {items.map((it) => (
+                  <div class="item">
+                    <div class="info">
+                      <strong>{it.name}</strong>
+                      <span class="muted">{it.size} · {rupees(it.price)}</span>
+                    </div>
+                    <div class="stepper">
+                      <button type="button" data-step="-1" data-key={it.key} aria-label={`${t('order.decrease')}: ${it.name} ${it.size}`}>−</button>
+                      <input type="number" inputmode="numeric" min="0" max="50" value="0" data-key={it.key} aria-label={`${t('order.qty')}: ${it.name} ${it.size}`} />
+                      <button type="button" data-step="1" data-key={it.key} aria-label={`${t('order.increase')}: ${it.name} ${it.size}`}>+</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <h2>{t('order.details')}</h2>
+              <div class="field"><label for="o-name">{t('order.name')}</label><input id="o-name" name="name" autocomplete="name" required /></div>
+              <div class="field"><label for="o-address">{t('order.address')}</label><textarea id="o-address" name="address" autocomplete="street-address" required></textarea></div>
+              <div class="field"><label for="o-landmark">{t('order.landmark')}</label><input id="o-landmark" name="landmark" /></div>
+              <div class="field">
+                <label for="pin">{t('order.pincode')}</label>
+                <input id="pin" name="pincode" inputmode="numeric" autocomplete="postal-code" maxlength="6" pattern="[0-9]{6}" required />
+                <p id="pin-status" class="status" aria-live="polite"></p>
+              </div>
+              <div class="field"><label for="o-when">{t('order.when')}</label><input id="o-when" name="when" /></div>
+              <div class="field"><label for="o-notes">{t('order.notes')}</label><textarea id="o-notes" name="notes"></textarea></div>
+            </div>
+
+            <aside class="summary card">
+              <p><strong>{t('order.payment')}:</strong> {t('order.cod')}</p>
+              <dl>
+                <div><dt>{t('order.subtotal')}</dt><dd id="sum-sub">₹0</dd></div>
+                <div><dt>{t('order.delivery')}</dt><dd id="sum-fee">—</dd></div>
+                <div class="total"><dt>{t('order.total')}</dt><dd id="sum-total">₹0</dd></div>
+              </dl>
+              <p id="order-error" class="status status--bad" role="alert"></p>
+              <button class="btn btn--wa btn--block" type="submit"><WaIcon /> {t('order.send')}</button>
+              <p class="hint">{t('order.sendHelp')}</p>
+            </aside>
+          </form>
+        </>
+      ) : (
+        <div class="order-grid">
+          <div class="card closed">
+            <span class="badge badge--dot">{t('soon.badge')}</span>
+            <h2>{t('order.closedTitle')}</h2>
+            <p class="muted">{t('order.closedText')}</p>
+            <form id="notify-form" novalidate>
+              <div class="field"><label for="n-name">{t('order.name')}</label><input id="n-name" name="name" autocomplete="name" /></div>
+              <div class="field">
+                <label for="pin">{t('order.pincode')}</label>
+                <input id="pin" name="pincode" inputmode="numeric" autocomplete="postal-code" maxlength="6" pattern="[0-9]{6}" />
+                <p id="pin-status" class="status" aria-live="polite"></p>
+              </div>
+              <button class="btn btn--wa btn--block" type="submit"><WaIcon /> {t('notify.button')}</button>
+            </form>
+          </div>
+          {site.showPrices && (
+            <div>
+              <h2>{t('order.priceList')}</h2>
+              <ul class="pricelist">
+                {items.map((it) => <li><span>{it.name} <span class="muted">· {it.size}</span></span><strong>{rupees(it.price)}</strong></li>)}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
+
+      <div class="contact">
+        <h2>{t('contact.title')}</h2>
+        <ul>
+          <li><a class="btn btn--wa" href={waLink(t('notify.message'))} target="_blank" rel="noopener"><WaIcon /> {t('contact.whatsapp')}{site.phoneDisplay && ` · ${site.phoneDisplay}`}</a></li>
+          {site.instagram && <li><a class="btn btn--ghost" href={`https://instagram.com/${site.instagram}`} target="_blank" rel="noopener">{t('contact.instagram')} @{site.instagram}</a></li>}
+          {site.email && <li><a class="btn btn--ghost" href={`mailto:${site.email}`}>{site.email}</a></li>}
+        </ul>
+        <p class="muted">{t('contact.area')}: {site.location.area}</p>
+      </div>
+    </div>
+  </section>
+  <script id="order-data" type="application/json" set:html={JSON.stringify(data)} />
+</Base>
+
+<script>
+  type Data = {
+    open: boolean; wa: string; pincodes: Record<string, string>; fee: number; freeAbove: number; minOrder: number;
+    items: { key: string; slug: string; name: string; size: string; price: number }[];
+    labels: Record<string, string>;
+  };
+  const raw = document.getElementById('order-data')?.textContent;
+  if (raw) init(JSON.parse(raw) as Data);
+
+  function init(d: Data) {
+    const L = d.labels;
+    const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
+    const fill = (s: string, v: Record<string, string>) => s.replace(/\{(\w+)\}/g, (_, k) => v[k] ?? '');
+    const openWa = (text: string) => {
+      const url = `https://wa.me/${d.wa}?text=${encodeURIComponent(text)}`;
+      const w = window.open(url, '_blank', 'noopener');
+      if (!w) window.location.href = url;
+    };
+
+    // Pincode check (both modes)
+    const pin = document.getElementById('pin') as HTMLInputElement | null;
+    const pinStatus = document.getElementById('pin-status');
+    function checkPin(show = true): { pin: string; area?: string } | null {
+      if (!pin || !pinStatus) return null;
+      const v = pin.value.replace(/\D/g, '').slice(0, 6);
+      if (pin.value !== v) pin.value = v;
+      pinStatus.className = 'status';
+      if (v.length < 6) {
+        pinStatus.textContent = show && v.length ? L['order.pinInvalid'] : '';
+        return null;
+      }
+      const area = d.pincodes[v];
+      pinStatus.textContent = area ? fill(L['order.pinOk'], { area }) : L['order.pinNo'];
+      pinStatus.classList.add(area ? 'status--ok' : 'status--bad');
+      return { pin: v, area };
+    }
+    pin?.addEventListener('input', () => checkPin(false));
+    pin?.addEventListener('blur', () => checkPin(true));
+
+    if (!d.open) {
+      const nf = document.getElementById('notify-form') as HTMLFormElement | null;
+      nf?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = (nf.elements.namedItem('name') as HTMLInputElement).value.trim();
+        const p = checkPin(true);
+        let msg = L['notify.message'];
+        if (p) msg += ' ' + fill(L['notify.messageArea'], { pin: p.pin + (p.area ? ` (${p.area})` : '') });
+        if (name) msg += `\n${L['order.msgName']}: ${name}`;
+        openWa(msg);
+      });
+      return;
+    }
+
+    // Ordering mode
+    const form = document.getElementById('order-form') as HTMLFormElement;
+    const qty = new Map<string, HTMLInputElement>();
+    form.querySelectorAll<HTMLInputElement>('input[data-key]').forEach((i) => qty.set(i.dataset.key!, i));
+    const errorEl = document.getElementById('order-error')!;
+    const clamp = (n: number) => Math.max(0, Math.min(50, Math.floor(n) || 0));
+
+    function totals() {
+      const lines = d.items.map((it) => ({ ...it, q: clamp(Number(qty.get(it.key)?.value)) })).filter((l) => l.q > 0);
+      const sub = lines.reduce((s, l) => s + l.q * l.price, 0);
+      const fee = sub === 0 || d.fee <= 0 || (d.freeAbove > 0 && sub >= d.freeAbove) ? 0 : d.fee;
+      return { lines, sub, fee, total: sub + fee };
+    }
+    function render() {
+      const { sub, fee, total } = totals();
+      document.getElementById('sum-sub')!.textContent = fmt(sub);
+      document.getElementById('sum-fee')!.textContent = sub === 0 ? '—' : fee === 0 ? L['order.free'] : fmt(fee);
+      document.getElementById('sum-total')!.textContent = fmt(total);
+      errorEl.textContent = '';
+    }
+
+    form.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-step]');
+      if (!b) return;
+      const input = qty.get(b.dataset.key!);
+      if (!input) return;
+      input.value = String(clamp(Number(input.value) + Number(b.dataset.step)));
+      render();
+    });
+    form.addEventListener('input', (e) => {
+      const i = e.target as HTMLInputElement;
+      if (i.dataset.key) render();
+    });
+
+    // ?add=<slug> preselects the first pack of that product
+    const add = new URLSearchParams(location.search).get('add');
+    const first = d.items.find((it) => it.slug === add);
+    if (first) qty.get(first.key)!.value = '1';
+    render();
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const { lines, sub, fee, total } = totals();
+      const f = (n: string) => ((form.elements.namedItem(n) as HTMLInputElement).value || '').trim();
+      const p = checkPin(true);
+      if (!lines.length) return void (errorEl.textContent = L['order.empty']);
+      if (d.minOrder > 0 && sub < d.minOrder) return void (errorEl.textContent = fill(L['order.minimum'], { amount: fmt(d.minOrder) }));
+      if (!f('name') || !f('address') || !p || !p.area) return void (errorEl.textContent = L['order.missing']);
+
+      const out = [L['order.msgHello'], ''];
+      for (const l of lines) out.push(`• ${l.name} (${l.size}) × ${l.q} = ${fmt(l.q * l.price)}`);
+      out.push('', `${L['order.subtotal']}: ${fmt(sub)}`, `${L['order.delivery']}: ${fee ? fmt(fee) : L['order.free']}`, `*${L['order.total']}: ${fmt(total)}*`, L['order.msgPayment'], '');
+      out.push(`${L['order.msgName']}: ${f('name')}`, `${L['order.msgAddress']}: ${f('address')}`);
+      if (f('landmark')) out.push(`${L['order.msgLandmark']}: ${f('landmark')}`);
+      out.push(`${L['order.msgPincode']}: ${p.pin} (${p.area})`);
+      if (f('when')) out.push(`${L['order.msgWhen']}: ${f('when')}`);
+      if (f('notes')) out.push(`${L['order.msgNotes']}: ${f('notes')}`);
+      openWa(out.join('\n'));
+    });
+  }
+</script>
+
+<style>
+  h2 { font-size: 1.4rem; margin-top: 1.5rem; }
+  .order-grid { display: grid; gap: 2rem; margin-top: 1.5rem; align-items: start; }
+  @media (min-width: 900px) { .order-grid { grid-template-columns: 1.4fr 1fr; gap: 3rem; } .summary { position: sticky; top: 88px; } }
+  .items { display: grid; gap: 0.6rem; margin-bottom: 1rem; }
+  .item { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 0.75rem 0.9rem; }
+  .info { display: grid; }
+  .stepper { display: flex; align-items: center; border: 1.5px solid var(--line); border-radius: 999px; overflow: hidden; flex-shrink: 0; }
+  .stepper button { width: 44px; height: 44px; border: 0; background: var(--paper-2); font-size: 1.3rem; font-weight: 700; cursor: pointer; color: var(--c-ink); }
+  .stepper button:hover { background: color-mix(in srgb, var(--c-accent) 25%, var(--c-paper)); }
+  .stepper input { width: 3rem; height: 44px; border: 0; text-align: center; font: inherit; font-weight: 700; -moz-appearance: textfield; }
+  .stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .summary dl { margin: 1rem 0; }
+  .summary dl div { display: flex; justify-content: space-between; padding: 0.35rem 0; }
+  .summary dd { margin: 0; font-weight: 600; }
+  .summary .total { border-top: 1px solid var(--line); margin-top: 0.4rem; padding-top: 0.7rem; font-size: 1.25rem; font-weight: 700; }
+  .summary .hint { margin-top: 0.8rem; margin-bottom: 0; }
+  .closed h2 { margin-top: 0.8rem; }
+  .pricelist { list-style: none; padding: 0; margin: 0; }
+  .pricelist li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--line); }
+  .contact { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .contact ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+</style>

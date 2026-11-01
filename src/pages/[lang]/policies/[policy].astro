@@ -1,0 +1,30 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { policies, type Policy } from '../../../data/policies';
+import { langs, pick, isFallback, useT, type Lang } from '../../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.flatMap((lang) => policies.map((policy) => ({ params: { lang, policy: policy.slug }, props: { policy } })));
+}
+const lang = Astro.params.lang as Lang;
+const { policy } = Astro.props as { policy: Policy };
+const t = useT(lang);
+const fallback = isFallback(policy.sections, lang);
+const title = pick(policy.title, lang);
+---
+<Base lang={lang} path={`policies/${policy.slug}/`} title={title}>
+  <section class="section">
+    <div class="wrap prose">
+      <h1>{title}</h1>
+      {fallback && <p class="notice small">{t('common.englishOnly')}</p>}
+      <div lang={fallback ? 'en' : undefined}>
+        {pick(policy.sections, lang).map((s) => (
+          <>
+            <h2>{s.heading}</h2>
+            {s.paragraphs.map((p) => <p>{p}</p>)}
+          </>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

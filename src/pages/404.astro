@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import { href, useT } from '../lib/i18n';
+const t = useT('en');
+---
+<Base lang="en" title={t('notFound.title')}>
+  <section class="section">
+    <div class="wrap prose">
+      <h1>{t('notFound.title')}</h1>
+      <p class="lead">{t('notFound.text')}</p>
+      <p class="btn-row">
+        <a class="btn btn--primary" href={href('en')}>{t('common.backHome')}</a>
+        <a class="btn btn--ghost" href={href('hi')} lang="hi-IN">होम</a>
+        <a class="btn btn--ghost" href={href('mr')} lang="mr-IN">मुख्यपृष्ठ</a>
+        <a class="btn btn--ghost" href={href('gu')} lang="gu-IN">હોમ</a>
+      </p>
+    </div>
+  </section>
+</Base>

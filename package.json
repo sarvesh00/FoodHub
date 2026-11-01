@@ -1,0 +1,20 @@
+{
+  "name": "foodhub-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "engines": {
+    "node": ">=20.3.0"
+  },
+  "dependencies": {
+    "@fontsource-variable/fraunces": "^5.0.0",
+    "@fontsource/hind-vadodara": "^5.0.0",
+    "@fontsource/mukta": "^5.0.0",
+    "astro": "^5.0.0"
+  }
+}

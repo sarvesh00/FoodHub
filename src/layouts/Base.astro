@@ -1,0 +1,90 @@
+---
+import '@fontsource/mukta/400.css';
+import '@fontsource/mukta/600.css';
+import '@fontsource/mukta/700.css';
+import '@fontsource/hind-vadodara/400.css';
+import '@fontsource/hind-vadodara/600.css';
+import '@fontsource/hind-vadodara/700.css';
+import '@fontsource-variable/fraunces';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../site.config';
+import { languages, langs, withBase, useT, brandFor, pick, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  /** Path after /<lang>/, e.g. 'products/' */
+  path?: string;
+  title?: string;
+  description?: string;
+  jsonLd?: Record<string, unknown>;
+}
+const { lang, path = '', title, description, jsonLd } = Astro.props;
+const t = useT(lang);
+const brand = brandFor(lang);
+const fullTitle = title ? `${title} · ${brand}` : `${brand} · ${pick(site.tagline, lang)}`;
+const desc = description ?? pick(site.description, lang);
+const abs = (l: Lang) => new URL(withBase(`${l}/${path}`), Astro.site).href;
+const c = site.colors;
+const cssVars = `--c-primary:${c.primary};--c-accent:${c.accent};--c-ink:${c.ink};--c-paper:${c.paper};--c-tawa:${c.tawa}`;
+
+const business = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: site.brandName,
+  description: pick(site.description, 'en'),
+  url: new URL(withBase(''), Astro.site).href,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.location.area,
+    addressRegion: site.location.region,
+    postalCode: site.location.postalCode,
+    addressCountry: site.location.country,
+  },
+  areaServed: Object.values(site.delivery.pincodes).map((name) => ({ '@type': 'Place', name: `${name}, Mumbai` })),
+  ...(site.phoneDisplay ? { telephone: site.phoneDisplay } : {}),
+  sameAs: [site.instagram && `https://instagram.com/${site.instagram}`, site.googleBusinessProfileUrl].filter(Boolean),
+};
+---
+<!doctype html>
+<html lang={languages[lang].htmlLang} style={cssVars}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={desc} />
+    <meta name="robots" content={site.allowIndexing ? 'index,follow' : 'noindex,nofollow'} />
+    <meta name="theme-color" content={c.paper} />
+    <link rel="canonical" href={abs(lang)} />
+    {langs.map((l) => <link rel="alternate" hreflang={languages[l].htmlLang} href={abs(l)} />)}
+    <link rel="alternate" hreflang="x-default" href={abs('en')} />
+    <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={abs(lang)} />
+    <meta property="og:locale" content={languages[lang].ogLocale} />
+    <meta property="og:site_name" content={site.brandName} />
+    <script type="application/ld+json" set:html={JSON.stringify(business)} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    {site.analytics.goatcounterCode && (
+      <script data-goatcounter={`https://${site.analytics.goatcounterCode}.goatcounter.com/count`} async src="https://gc.zgo.at/count.js"></script>
+    )}
+  </head>
+  <body>
+    <a class="skip visually-hidden" href="#main">{t('nav.skip')}</a>
+    {site.demoMode && <div class="demo">{t('demo.banner')}</div>}
+    <Header lang={lang} path={path} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <script is:inline define:vars={{ lang }}>try { localStorage.setItem('lang', lang); } catch (e) {}</script>
+  </body>
+</html>
+
+<style>
+  .demo { background: var(--c-accent); color: var(--c-ink); text-align: center; font-size: 0.9rem; font-weight: 600; padding: 0.4rem 1rem; }
+  .skip:focus { position: fixed !important; width: auto; height: auto; clip: auto; top: 8px; left: 8px; z-index: 100; background: #fff; padding: 0.6rem 1rem; border-radius: 8px; }
+</style>

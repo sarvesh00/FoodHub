@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import pages from '../../data/pages.json';
+import { langs, pick, useT, type Lang } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const t = useT(lang);
+const faq = pages.faq.map((f) => ({ q: pick(f.q, lang), a: pick(f.a, lang) }));
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base lang={lang} path="faq/" title={t('nav.faq')} jsonLd={jsonLd}>
+  <section class="section">
+    <div class="wrap prose">
+      <h1>{t('nav.faq')}</h1>
+      {faq.map((f, i) => (
+        <details class="faq" open={i === 0}>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+</Base>

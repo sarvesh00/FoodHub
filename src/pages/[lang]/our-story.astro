@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import pages from '../../data/pages.json';
+import { langs, pick, type Lang } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const s = pages.story;
+---
+<Base lang={lang} path="our-story/" title={pick(s.title, lang)} description={pick(s.intro, lang)}>
+  <section class="section">
+    <div class="wrap prose">
+      <h1>{pick(s.title, lang)}</h1>
+      <p class="lead">{pick(s.intro, lang)}</p>
+      {pick<string[]>(s.body, lang).map((para) => <p>{para}</p>)}
+    </div>
+  </section>
+</Base>

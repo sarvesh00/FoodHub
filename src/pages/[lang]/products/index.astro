@@ -1,0 +1,31 @@
+---
+import Base from '../../../layouts/Base.astro';
+import ProductCard from '../../../components/ProductCard.astro';
+import { langs, useT, type Lang } from '../../../lib/i18n';
+import { activeProducts, upcomingProducts } from '../../../lib/products';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const t = useT(lang);
+---
+<Base lang={lang} path="products/" title={t('nav.products')} description={t('product.listText')}>
+  <section class="section">
+    <div class="wrap">
+      <h1>{t('product.listTitle')}</h1>
+      <p class="lead">{t('product.listText')}</p>
+      <div class="grid grid--2" style="margin-top:2rem">
+        {activeProducts.map((p) => <ProductCard lang={lang} product={p} />)}
+      </div>
+      {upcomingProducts.length > 0 && (
+        <>
+          <h2 style="margin-top:3rem">{t('product.upcomingTitle')}</h2>
+          <div class="grid grid--3">
+            {upcomingProducts.map((p) => <ProductCard lang={lang} product={p} />)}
+          </div>
+        </>
+      )}
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,32 @@
+---
+/** Root: sends visitors to their language (saved choice, then browser language, else English). */
+import { site } from '../site.config';
+import { languages, langs, href, withBase } from '../lib/i18n';
+const targets = Object.fromEntries(langs.map((l) => [l, href(l)]));
+---
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{site.brandName}</title>
+    <meta name="robots" content={site.allowIndexing ? 'index,follow' : 'noindex,nofollow'} />
+    <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
+    {langs.map((l) => <link rel="alternate" hreflang={languages[l].htmlLang} href={new URL(href(l), Astro.site).href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL(href('en'), Astro.site).href} />
+    <noscript><meta http-equiv="refresh" content={`0; url=${href('en')}`} /></noscript>
+    <script is:inline define:vars={{ targets }}>
+      var pick = 'en';
+      try { var saved = localStorage.getItem('lang'); if (saved && targets[saved]) pick = saved; else throw 0; }
+      catch (e) {
+        var nav = (navigator.languages || [navigator.language || 'en']).map(function (l) { return String(l).slice(0, 2).toLowerCase(); });
+        for (var i = 0; i < nav.length; i++) { if (targets[nav[i]]) { pick = nav[i]; break; } }
+      }
+      location.replace(targets[pick]);
+    </script>
+    <style>body{font-family:system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;margin:0;background:#fbf6ec}a{display:inline-block;margin:.4rem;padding:.6rem 1rem;border-radius:999px;background:#fff;color:#2f5d3a;font-weight:600;text-decoration:none;border:1px solid #ddd}</style>
+  </head>
+  <body>
+    <p>{langs.map((l) => <a href={href(l)} lang={languages[l].htmlLang}>{languages[l].label}</a>)}</p>
+  </body>
+</html>

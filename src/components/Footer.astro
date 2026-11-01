@@ -1,0 +1,55 @@
+---
+import { site } from '../site.config';
+import { href, useT, brandFor, waLink, pick, type Lang } from '../lib/i18n';
+import WaIcon from './WaIcon.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+const year = new Date().getFullYear();
+---
+<footer class="site-footer section--dark">
+  <div class="wrap cols">
+    <div>
+      <p class="f-brand">{brandFor(lang)}</p>
+      <p class="muted-d">{pick(site.tagline, lang)}</p>
+      <p class="fssai">
+        {site.fssaiNumber ? <>{t('footer.fssai')}: <strong>{site.fssaiNumber}</strong></> : t('footer.fssaiPending')}
+      </p>
+    </div>
+    <div>
+      <p class="f-head">{t('nav.contact')}</p>
+      <ul>
+        <li><a href={waLink(t('notify.message'))} target="_blank" rel="noopener"><WaIcon size={16} /> {t('contact.whatsapp')}</a></li>
+        {site.instagram && <li><a href={`https://instagram.com/${site.instagram}`} target="_blank" rel="noopener">Instagram @{site.instagram}</a></li>}
+        {site.email && <li><a href={`mailto:${site.email}`}>{site.email}</a></li>}
+        <li class="muted-d">{site.location.area}</li>
+      </ul>
+    </div>
+    <div>
+      <p class="f-head">{t('footer.policies')}</p>
+      <ul>
+        <li><a href={href(lang, 'policies/shipping/')}>{t('footer.shipping')}</a></li>
+        <li><a href={href(lang, 'policies/refund/')}>{t('footer.refund')}</a></li>
+        <li><a href={href(lang, 'policies/privacy/')}>{t('footer.privacy')}</a></li>
+        <li><a href={href(lang, 'policies/terms/')}>{t('footer.terms')}</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap legal">
+    <span>© {year} {site.brandName}. {t('footer.made')}</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer { padding-block: 3rem 1.5rem; margin-top: 0; }
+  .cols { display: grid; gap: 2rem; }
+  @media (min-width: 720px) { .cols { grid-template-columns: 2fr 1fr 1fr; } }
+  .f-brand { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .f-head { font-weight: 700; margin-bottom: 0.6rem; color: #fff; }
+  ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
+  a { display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .muted-d { color: #c9bfae; }
+  .fssai { margin-top: 1rem; font-size: 0.95rem; color: #e8dfcf; }
+  .legal { border-top: 1px solid rgb(255 255 255 / 0.12); margin-top: 2rem; padding-top: 1.2rem; font-size: 0.85rem; color: #b5ab9b; }
+</style>
